@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cineaste</string>
+    <string name="app_name" translatable="false">Cineaste</string>
 
     <string name="search">Search</string>
     <string name="favorite">Favorite movies</string>
