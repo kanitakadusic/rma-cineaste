@@ -26,7 +26,7 @@ class MovieListAdapter (
         val context: Context = holder.movieImage.context
 
         var id: Int = context.resources.getIdentifier(genreMatch, "drawable", context.packageName)
-        if (id == 0) id = context.resources.getIdentifier("picture1", "drawable", context.packageName)
+        if (id == 0) id = context.resources.getIdentifier("undefined", "drawable", context.packageName)
         holder.movieImage.setImageResource(id)
     }
 

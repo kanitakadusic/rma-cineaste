@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/picture1"
+            app:srcCompat="@drawable/undefined"
             android:contentDescription="@string/genre" />
 
         <TextView

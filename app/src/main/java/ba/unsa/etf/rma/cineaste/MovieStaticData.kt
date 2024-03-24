@@ -16,7 +16,7 @@ fun getFavoriteMovies(): List<Movie> {
             "While navigating their careers in Los Angeles, a pianist and an actress fall in love while attempting to reconcile their aspirations for the future.",
             "09.12.2016.",
             "https://www.imdb.com/title/tt3783958/",
-            "drama"
+            "musical"
         ),
         Movie(
             1003,
