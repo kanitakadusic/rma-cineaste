@@ -16,4 +16,6 @@
     <color name="redLight">#CF6679</color>
 
     <color name="purple_700">#7B1FA2</color>
+
+    <color name="highlightColor">@color/cyan</color>
 </resources>

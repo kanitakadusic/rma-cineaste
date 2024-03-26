@@ -6,4 +6,7 @@
     <string name="recent">Upcoming movies</string>
 
     <string name="genre">Genre</string>
+
+    <string name="movie">Movie</string>
+    <string name="share">Share</string>
 </resources>

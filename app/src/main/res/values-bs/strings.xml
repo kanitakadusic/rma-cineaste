@@ -7,4 +7,7 @@
     <string name="recent">Predstojeći filmovi</string>
 
     <string name="genre">Žanr</string>
+
+    <string name="movie">Film</string>
+    <string name="share">Podijeli</string>
 </resources>
