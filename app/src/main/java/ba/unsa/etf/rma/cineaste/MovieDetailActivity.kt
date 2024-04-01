@@ -1,6 +1,9 @@
 package ba.unsa.etf.rma.cineaste
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -32,6 +35,18 @@ class MovieDetailActivity : AppCompatActivity() {
             populateDetails()
         } else {
             finish()
+        }
+
+        website.setOnClickListener { showWebsite() }
+    }
+
+    private fun showWebsite() {
+        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(movie.homepage))
+
+        try {
+            startActivity(webIntent)
+        } catch (e: ActivityNotFoundException) {
+            // TODO()
         }
     }
 
