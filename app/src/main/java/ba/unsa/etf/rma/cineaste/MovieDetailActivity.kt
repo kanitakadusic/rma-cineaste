@@ -1,5 +1,6 @@
 package ba.unsa.etf.rma.cineaste
 
+import android.app.SearchManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -8,6 +9,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MovieDetailActivity : AppCompatActivity() {
     private lateinit var movie: Movie
@@ -17,6 +19,7 @@ class MovieDetailActivity : AppCompatActivity() {
     private lateinit var genre: TextView
     private lateinit var website: TextView
     private lateinit var poster: ImageView
+    private lateinit var share: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +31,7 @@ class MovieDetailActivity : AppCompatActivity() {
         genre = findViewById(R.id.movie_genre)
         website = findViewById(R.id.movie_website)
         poster = findViewById(R.id.movie_poster)
+        share = findViewById(R.id.shareButton)
 
         val extras = intent.extras
         if (extras != null) {
@@ -37,7 +41,20 @@ class MovieDetailActivity : AppCompatActivity() {
             finish()
         }
 
+        title.setOnClickListener { searchTrailer() }
+
         website.setOnClickListener { showWebsite() }
+
+        share.setOnClickListener { shareOverview() }
+    }
+
+    private fun searchTrailer() {
+        val searchIntent: Intent = Intent().apply {
+            action = Intent.ACTION_WEB_SEARCH
+            putExtra(SearchManager.QUERY, title.text.toString() + " trailer")
+        }
+
+        startActivity(searchIntent)
     }
 
     private fun showWebsite() {
@@ -48,6 +65,16 @@ class MovieDetailActivity : AppCompatActivity() {
         } catch (e: ActivityNotFoundException) {
             // TODO()
         }
+    }
+
+    private fun shareOverview() {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, overview.text)
+            type = "text/plain"
+        }
+
+        startActivity(Intent.createChooser(sendIntent, "Send to"))
     }
 
     private fun populateDetails() {
