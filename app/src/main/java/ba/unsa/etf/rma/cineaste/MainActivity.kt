@@ -1,6 +1,7 @@
 package ba.unsa.etf.rma.cineaste
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recentMovies: RecyclerView
     private lateinit var recentMoviesAdapter: MovieListAdapter
     private var recentMoviesList = getRecentMovies()
+
+    private val broadcastReceiver = ConnectivityBroadcastReceiver()
+    private val filter = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,5 +59,15 @@ class MainActivity : AppCompatActivity() {
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
             searchText.setText(it)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(broadcastReceiver, filter)
+    }
+
+    override fun onPause() {
+        unregisterReceiver(broadcastReceiver)
+        super.onPause()
     }
 }
