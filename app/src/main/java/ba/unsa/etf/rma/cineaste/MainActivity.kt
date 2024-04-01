@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var searchText: EditText
+
     private lateinit var favoriteMovies: RecyclerView
     private lateinit var favoriteMoviesAdapter: MovieListAdapter
     private var favoriteMoviesList = getFavoriteMovies()
@@ -16,11 +18,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recentMoviesAdapter: MovieListAdapter
     private var recentMoviesList = getRecentMovies()
 
-    private lateinit var searchText: EditText
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        searchText = findViewById(R.id.searchText)
 
         favoriteMovies = findViewById(R.id.favoriteMovies)
         favoriteMovies.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -36,16 +38,8 @@ class MainActivity : AppCompatActivity() {
         recentMovies.adapter = recentMoviesAdapter
         recentMoviesAdapter.updateMovies(recentMoviesList)
 
-        searchText = findViewById(R.id.searchText)
-
         if (intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain") {
             handleSendText(intent)
-        }
-    }
-
-    private fun handleSendText(intent: Intent) {
-        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-            searchText.setText(it)
         }
     }
 
@@ -53,6 +47,13 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, MovieDetailActivity::class.java).apply {
             putExtra("movie_title", movie.title)
         }
+
         startActivity(intent)
+    }
+
+    private fun handleSendText(intent: Intent) {
+        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
+            searchText.setText(it)
+        }
     }
 }

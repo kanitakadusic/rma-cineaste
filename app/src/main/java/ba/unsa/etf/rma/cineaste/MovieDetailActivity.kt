@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -48,33 +49,13 @@ class MovieDetailActivity : AppCompatActivity() {
         share.setOnClickListener { shareOverview() }
     }
 
-    private fun searchTrailer() {
-        val searchIntent: Intent = Intent().apply {
-            action = Intent.ACTION_WEB_SEARCH
-            putExtra(SearchManager.QUERY, title.text.toString() + " trailer")
-        }
+    private fun getMovieByTitle(name: String): Movie {
+        val movies: ArrayList<Movie> = arrayListOf()
+        movies.addAll(getRecentMovies())
+        movies.addAll(getFavoriteMovies())
 
-        startActivity(searchIntent)
-    }
-
-    private fun showWebsite() {
-        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(movie.homepage))
-
-        try {
-            startActivity(webIntent)
-        } catch (e: ActivityNotFoundException) {
-            // TODO()
-        }
-    }
-
-    private fun shareOverview() {
-        val sendIntent: Intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, overview.text)
-            type = "text/plain"
-        }
-
-        startActivity(Intent.createChooser(sendIntent, "Send to"))
+        val movie = movies.find { movie -> name == movie.title }
+        return movie ?: Movie(0, "Test", "Test", "Test", "Test", "Test")
     }
 
     private fun populateDetails() {
@@ -85,18 +66,49 @@ class MovieDetailActivity : AppCompatActivity() {
         website.text = movie.homepage
 
         val context: Context = poster.context
-        var id: Int = context.resources.getIdentifier(movie.genre, "drawable", context.packageName)
-        if (id == 0) id = context.resources.getIdentifier("undefined", "drawable", context.packageName)
+
+        var id: Int = context.resources
+            .getIdentifier(movie.genre, "drawable", context.packageName)
+        if (id == 0) id = context.resources
+            .getIdentifier("undefined", "drawable", context.packageName)
 
         poster.setImageResource(id)
     }
 
-    private fun getMovieByTitle(name: String): Movie {
-        val movies: ArrayList<Movie> = arrayListOf()
-        movies.addAll(getRecentMovies())
-        movies.addAll(getFavoriteMovies())
+    private fun searchTrailer() {
+        val searchIntent: Intent = Intent().apply {
+            action = Intent.ACTION_WEB_SEARCH
+            putExtra(SearchManager.QUERY, movie.title + " trailer")
+        }
 
-        val movie = movies.find { movie -> name == movie.title }
-        return movie ?: Movie(0, "Test", "Test", "Test", "Test", "Test")
+        try {
+            startActivity(searchIntent)
+        } catch (e: ActivityNotFoundException) {
+            Log.v("Error", e.toString())
+        }
+    }
+
+    private fun showWebsite() {
+        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(movie.homepage))
+
+        try {
+            startActivity(webIntent)
+        } catch (e: ActivityNotFoundException) {
+            Log.v("Error", e.toString())
+        }
+    }
+
+    private fun shareOverview() {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, movie.overview)
+            type = "text/plain"
+        }
+
+        try {
+            startActivity(Intent.createChooser(sendIntent, "Send to"))
+        } catch (e: ActivityNotFoundException) {
+            Log.v("Error", e.toString())
+        }
     }
 }

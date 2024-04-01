@@ -13,31 +13,41 @@ class MovieListAdapter (
     private val onItemClicked: (movie: Movie) -> Unit
 ) : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
-        return MovieViewHolder(view)
+    fun updateMovies(movies: List<Movie>) {
+        this.movies = movies
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = movies.size
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): MovieViewHolder {
+        val view = LayoutInflater
+            .from(parent.context)
+            .inflate(R.layout.item_movie, parent, false)
+
+        return MovieViewHolder(view)
+    }
+
+    override fun onBindViewHolder(
+        holder: MovieViewHolder,
+        position: Int
+    ) {
         holder.movieTitle.text = movies[position].title
 
         val genreMatch: String = movies[position].genre
         val context: Context = holder.movieImage.context
 
-        var id: Int = context.resources.getIdentifier(genreMatch, "drawable", context.packageName)
-        if (id == 0) id = context.resources.getIdentifier("undefined", "drawable", context.packageName)
+        var id: Int = context.resources
+            .getIdentifier(genreMatch, "drawable", context.packageName)
+        if (id == 0) id = context.resources
+            .getIdentifier("undefined", "drawable", context.packageName)
+
         holder.movieImage.setImageResource(id)
 
-        holder.itemView.setOnClickListener {
-            onItemClicked(movies[position])
-        }
-    }
-
-    fun updateMovies(movies: List<Movie>) {
-        this.movies = movies
-        notifyDataSetChanged()
+        holder.itemView.setOnClickListener { onItemClicked(movies[position]) }
     }
 
     inner class MovieViewHolder (
