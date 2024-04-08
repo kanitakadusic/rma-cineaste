@@ -11,6 +11,10 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyLeftOf
+import androidx.test.espresso.assertion.PositionAssertions.isCompletelyRightOf
+import androidx.test.espresso.assertion.PositionAssertions.isLeftAlignedWith
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
@@ -56,7 +60,7 @@ class IntentInstrumentedTest {
     }
 
     @Test
-    fun testLinksIntent(){
+    fun testLinksIntent() {
         Intents.init()
 
         val runDetails = Intent(ApplicationProvider.getApplicationContext(), MovieDetailActivity::class.java)
@@ -67,5 +71,28 @@ class IntentInstrumentedTest {
         Intents.intended(hasAction(Intent.ACTION_VIEW))
 
         Intents.release()
+    }
+
+    @Test
+    fun testLayoutDetailsActivity() {
+        val runDetails = Intent(ApplicationProvider.getApplicationContext(), MovieDetailActivity::class.java)
+        runDetails.putExtra("movie_title","Pride and prejudice")
+        launchActivity<MovieDetailActivity>(runDetails)
+
+        onView(withId(R.id.movie_poster))
+            .check(isCompletelyLeftOf(withId(R.id.movie_title)))
+        onView(withId(R.id.movie_release_date))
+            .check(isCompletelyBelow(withId(R.id.movie_title)))
+        onView(withId(R.id.movie_release_date))
+            .check(isCompletelyRightOf(withId(R.id.movie_poster)))
+        onView(withId(R.id.movie_genre))
+            .check(isCompletelyBelow(withId(R.id.movie_release_date)))
+        onView(withId(R.id.movie_genre))
+            .check(isLeftAlignedWith(withId(R.id.movie_release_date)))
+        onView(withId(R.id.movie_website))
+            .check(isCompletelyBelow(withId(R.id.movie_poster)))
+        onView(withId(R.id.movie_overview))
+            .check(isCompletelyBelow(withId(R.id.movie_website)))
+            .check(isLeftAlignedWith(withId(R.id.movie_website)))
     }
 }
