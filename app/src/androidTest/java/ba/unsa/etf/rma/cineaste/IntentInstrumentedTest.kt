@@ -1,5 +1,6 @@
 package ba.unsa.etf.rma.cineaste
 
+import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -18,6 +19,7 @@ import androidx.test.espresso.assertion.PositionAssertions.isLeftAlignedWith
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -94,5 +96,19 @@ class IntentInstrumentedTest {
         onView(withId(R.id.movie_overview))
             .check(isCompletelyBelow(withId(R.id.movie_website)))
             .check(isLeftAlignedWith(withId(R.id.movie_website)))
+    }
+
+    @Test
+    fun testWebSearchAction() {
+        Intents.init()
+
+        val runDetails = Intent(ApplicationProvider.getApplicationContext(), MovieDetailActivity::class.java)
+        runDetails.putExtra("movie_title","Pride and prejudice")
+        launchActivity<MovieDetailActivity>(runDetails)
+
+        onView(withId(R.id.movie_title)).perform(click())
+        Intents.intended(hasExtra(SearchManager.QUERY, "Pride and prejudice" + " trailer"))
+
+        Intents.release()
     }
 }
