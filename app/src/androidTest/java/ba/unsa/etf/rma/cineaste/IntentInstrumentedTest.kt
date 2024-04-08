@@ -8,18 +8,23 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.core.graphics.drawable.toBitmap
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.PositionAssertions
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyLeftOf
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyRightOf
 import androidx.test.espresso.assertion.PositionAssertions.isLeftAlignedWith
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -110,5 +115,18 @@ class IntentInstrumentedTest {
         Intents.intended(hasExtra(SearchManager.QUERY, "Pride and prejudice" + " trailer"))
 
         Intents.release()
+    }
+
+    @Test
+    fun testIntentActionSend() {
+        val intent = Intent()
+        intent.putExtra(Intent.EXTRA_TEXT, "Some text")
+        intent.action = Intent.ACTION_SEND
+        intent.type = "text/plain"
+        intent.`package` = "ba.unsa.etf.rma.cineaste"
+
+        launchActivity<MainActivity>(intent).use {
+            onView(withId(R.id.searchText)).check(matches(withText("Some text")))
+        }
     }
 }
