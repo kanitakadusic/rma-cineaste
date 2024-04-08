@@ -12,15 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.PositionAssertions
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyBelow
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyLeftOf
 import androidx.test.espresso.assertion.PositionAssertions.isCompletelyRightOf
 import androidx.test.espresso.assertion.PositionAssertions.isLeftAlignedWith
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollTo
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
@@ -127,6 +125,19 @@ class IntentInstrumentedTest {
 
         launchActivity<MainActivity>(intent).use {
             onView(withId(R.id.searchText)).check(matches(withText("Some text")))
+        }
+    }
+
+    @Test
+    fun testFavoriteMoviesList() {
+        val runApp = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+        launchActivity<MainActivity>(runApp)
+
+        val movies = getFavoriteMovies()
+
+        for (movie in movies) {
+            onView(withId(R.id.favoriteMovies))
+                .perform(scrollTo<RecyclerView.ViewHolder>(hasDescendant(withText(movie.title))))
         }
     }
 }
