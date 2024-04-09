@@ -1,4 +1,6 @@
-package ba.unsa.etf.rma.cineaste
+package ba.unsa.etf.rma.cineaste.utils
+
+import ba.unsa.etf.rma.cineaste.models.Movie
 
 fun getFavoriteMovies(): List<Movie> {
     return listOf(

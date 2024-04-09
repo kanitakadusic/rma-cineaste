@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste
+package ba.unsa.etf.rma.cineaste.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context

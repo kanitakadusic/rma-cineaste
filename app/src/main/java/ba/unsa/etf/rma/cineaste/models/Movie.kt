@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste
+package ba.unsa.etf.rma.cineaste.models
 
 data class Movie (
     val id: Long,

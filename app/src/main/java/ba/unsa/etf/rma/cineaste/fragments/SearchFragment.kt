@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste
+package ba.unsa.etf.rma.cineaste.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import ba.unsa.etf.rma.cineaste.R
 
 class SearchFragment : Fragment() {
     private lateinit var searchText: EditText

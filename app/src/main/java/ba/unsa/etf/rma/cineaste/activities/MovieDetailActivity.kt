@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste
+package ba.unsa.etf.rma.cineaste.activities
 
 import android.app.SearchManager
 import android.content.ActivityNotFoundException
@@ -10,6 +10,10 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import ba.unsa.etf.rma.cineaste.models.Movie
+import ba.unsa.etf.rma.cineaste.R
+import ba.unsa.etf.rma.cineaste.utils.getFavoriteMovies
+import ba.unsa.etf.rma.cineaste.utils.getRecentMovies
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MovieDetailActivity : AppCompatActivity() {

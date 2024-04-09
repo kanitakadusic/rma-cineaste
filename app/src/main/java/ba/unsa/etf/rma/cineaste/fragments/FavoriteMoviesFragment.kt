@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste
+package ba.unsa.etf.rma.cineaste.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ba.unsa.etf.rma.cineaste.models.Movie
+import ba.unsa.etf.rma.cineaste.activities.MovieDetailActivity
+import ba.unsa.etf.rma.cineaste.adapters.MovieListAdapter
+import ba.unsa.etf.rma.cineaste.R
+import ba.unsa.etf.rma.cineaste.utils.getFavoriteMovies
 
 class FavoriteMoviesFragment : Fragment() {
     private lateinit var favoriteMovies: RecyclerView

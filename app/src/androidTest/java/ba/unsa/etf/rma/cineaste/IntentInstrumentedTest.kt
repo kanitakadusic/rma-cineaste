@@ -28,6 +28,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import ba.unsa.etf.rma.cineaste.activities.MainActivity
+import ba.unsa.etf.rma.cineaste.activities.MovieDetailActivity
+import ba.unsa.etf.rma.cineaste.utils.getFavoriteMovies
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 import org.junit.Rule
