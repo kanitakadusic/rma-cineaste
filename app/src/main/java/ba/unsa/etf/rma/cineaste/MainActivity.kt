@@ -1,73 +1,19 @@
 package ba.unsa.etf.rma.cineaste
 
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var searchText: EditText
-
-    private lateinit var favoriteMovies: RecyclerView
-    private lateinit var favoriteMoviesAdapter: MovieListAdapter
-    private var favoriteMoviesList = getFavoriteMovies()
-
-    private lateinit var recentMovies: RecyclerView
-    private lateinit var recentMoviesAdapter: MovieListAdapter
-    private var recentMoviesList = getRecentMovies()
-
-    private val broadcastReceiver = ConnectivityBroadcastReceiver()
-    private val filter = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        searchText = findViewById(R.id.searchText)
-
-        favoriteMovies = findViewById(R.id.favoriteMovies)
-        favoriteMovies.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
-        favoriteMoviesAdapter = MovieListAdapter(arrayListOf()) { movie -> showMovieDetails(movie) }
-        favoriteMovies.adapter = favoriteMoviesAdapter
-        favoriteMoviesAdapter.updateMovies(favoriteMoviesList)
-
-        recentMovies = findViewById(R.id.recentMovies)
-        recentMovies.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
-        recentMoviesAdapter = MovieListAdapter(arrayListOf()) { movie -> showMovieDetails(movie) }
-        recentMovies.adapter = recentMoviesAdapter
-        recentMoviesAdapter.updateMovies(recentMoviesList)
-
-        if (intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain") {
-            handleSendText(intent)
-        }
-    }
-
-    private fun showMovieDetails(movie: Movie) {
-        val intent = Intent(this, MovieDetailActivity::class.java).apply {
-            putExtra("movie_title", movie.title)
-        }
-
-        startActivity(intent)
-    }
-
-    private fun handleSendText(intent: Intent) {
-        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-            searchText.setText(it)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        registerReceiver(broadcastReceiver, filter)
-    }
-
-    override fun onPause() {
-        unregisterReceiver(broadcastReceiver)
-        super.onPause()
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        val navView: BottomNavigationView = findViewById(R.id.bottomNavigation)
+        navView.setupWithNavController(navController)
     }
 }
