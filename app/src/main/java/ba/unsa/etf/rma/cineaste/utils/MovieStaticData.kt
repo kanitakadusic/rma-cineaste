@@ -59,3 +59,11 @@ fun getRecentMovies(): List<Movie> {
         )
     )
 }
+
+fun getMovieActors(): Map<String,List<String>> {
+    return mapOf("Pride and prejudice" to listOf("Keira Knightley", "Talulah Riley", "Rosamund Pike"))
+}
+
+fun getSimilarMovies(): Map<String,List<String>> {
+    return mapOf("Pride and prejudice" to listOf("Jane Eyre", "The Notebook", "Atonement"))
+}

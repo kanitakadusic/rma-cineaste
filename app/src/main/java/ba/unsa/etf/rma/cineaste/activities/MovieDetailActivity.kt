@@ -10,10 +10,13 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import ba.unsa.etf.rma.cineaste.models.Movie
 import ba.unsa.etf.rma.cineaste.R
 import ba.unsa.etf.rma.cineaste.utils.getFavoriteMovies
 import ba.unsa.etf.rma.cineaste.utils.getRecentMovies
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MovieDetailActivity : AppCompatActivity() {
@@ -51,6 +54,12 @@ class MovieDetailActivity : AppCompatActivity() {
         website.setOnClickListener { showWebsite() }
 
         share.setOnClickListener { shareOverview() }
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment1) as NavHostFragment
+        val navController = navHostFragment.navController
+        val navView: BottomNavigationView = findViewById(R.id.bottomNavigation1)
+
+        navView.setupWithNavController(navController)
     }
 
     private fun getMovieByTitle(name: String): Movie {
