@@ -39,7 +39,7 @@ class MovieListAdapter (
     ) {
         holder.movieTitle.text = movies[position].title
 
-        val genreMatch: String = movies[position].genre
+        val genreMatch: String? = movies[position].genre
         val context: Context = holder.movieImage.context
 
         var id: Int = context.resources

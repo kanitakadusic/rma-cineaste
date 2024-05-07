@@ -11,7 +11,7 @@ import ba.unsa.etf.rma.cineaste.R
 import ba.unsa.etf.rma.cineaste.adapters.SimpleStringAdapter
 import ba.unsa.etf.rma.cineaste.utils.getSimilarMovies
 
-class SimilarFragment() : Fragment() {
+class SimilarFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
