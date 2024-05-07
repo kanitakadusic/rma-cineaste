@@ -42,10 +42,9 @@ class MovieListAdapter (
         val genreMatch: String? = movies[position].genre
         val context: Context = holder.movieImage.context
 
-        var id: Int = context.resources
-            .getIdentifier(genreMatch, "drawable", context.packageName)
-        if (id == 0) id = context.resources
-            .getIdentifier("undefined", "drawable", context.packageName)
+        var id = 0
+        if (genreMatch !== null) id = context.resources.getIdentifier(genreMatch, "drawable", context.packageName)
+        if (id === 0) id = context.resources.getIdentifier("undefined", "drawable", context.packageName)
 
         holder.movieImage.setImageResource(id)
 
