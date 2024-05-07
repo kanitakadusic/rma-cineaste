@@ -9,11 +9,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ba.unsa.etf.rma.cineaste.models.Movie
 import ba.unsa.etf.rma.cineaste.R
+import com.bumptech.glide.Glide
 
 class MovieListAdapter (
     private var movies: List<Movie>,
     private val onItemClicked: (movie: Movie) -> Unit
 ) : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>() {
+
+    private val posterPath = "https://image.tmdb.org/t/p/w342"
 
     fun updateMovies(movies: List<Movie>) {
         this.movies = movies
@@ -46,7 +49,13 @@ class MovieListAdapter (
         if (genreMatch !== null) id = context.resources.getIdentifier(genreMatch, "drawable", context.packageName)
         if (id === 0) id = context.resources.getIdentifier("undefined", "drawable", context.packageName)
 
-        holder.movieImage.setImageResource(id)
+        Glide.with(context)
+            .load(posterPath + movies[position].posterPath)
+            .centerCrop()
+            .placeholder(R.drawable.undefined)
+            .error(id)
+            .fallback(id)
+            .into(holder.movieImage)
 
         holder.itemView.setOnClickListener { onItemClicked(movies[position]) }
     }
