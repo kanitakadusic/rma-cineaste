@@ -15,9 +15,9 @@ import ba.unsa.etf.rma.cineaste.R
 import ba.unsa.etf.rma.cineaste.utils.getFavoriteMovies
 
 class FavoriteMoviesFragment : Fragment() {
-    private lateinit var favoriteMovies: RecyclerView
-    private lateinit var favoriteMoviesAdapter: MovieListAdapter
-    private var favoriteMoviesList = getFavoriteMovies()
+    private lateinit var favoriteRV: RecyclerView
+    private lateinit var favoriteMLA: MovieListAdapter
+    private var favoriteList = getFavoriteMovies()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,12 +26,12 @@ class FavoriteMoviesFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_favorite_movies, container, false)
 
-        favoriteMovies = view.findViewById(R.id.favoriteMovies)
-        favoriteMovies.layoutManager = GridLayoutManager(activity, 2)
+        favoriteRV = view.findViewById(R.id.favoriteMovies)
+        favoriteRV.layoutManager = GridLayoutManager(activity, 2)
 
-        favoriteMoviesAdapter = MovieListAdapter(arrayListOf()) { movie -> showMovieDetails(movie) }
-        favoriteMovies.adapter = favoriteMoviesAdapter
-        favoriteMoviesAdapter.updateMovies(favoriteMoviesList)
+        favoriteMLA = MovieListAdapter(arrayListOf()) { movie -> showMovieDetails(movie) }
+        favoriteRV.adapter = favoriteMLA
+        favoriteMLA.updateMovies(favoriteList)
 
         return view
     }

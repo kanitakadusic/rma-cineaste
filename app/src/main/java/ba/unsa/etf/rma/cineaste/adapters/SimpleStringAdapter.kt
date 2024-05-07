@@ -13,7 +13,7 @@ class SimpleStringAdapter(
     inner class SimpleViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
-        val textElement = itemView.findViewById<TextView>(android.R.id.text1)
+        val textElement: TextView = itemView.findViewById(android.R.id.text1)
     }
 
     override fun onCreateViewHolder(

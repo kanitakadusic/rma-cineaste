@@ -9,25 +9,39 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import ba.unsa.etf.rma.cineaste.models.Movie
 import ba.unsa.etf.rma.cineaste.R
+import ba.unsa.etf.rma.cineaste.repositories.MovieRepository
+import ba.unsa.etf.rma.cineaste.repositories.Result
 import ba.unsa.etf.rma.cineaste.utils.getFavoriteMovies
 import ba.unsa.etf.rma.cineaste.utils.getRecentMovies
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class MovieDetailActivity : AppCompatActivity() {
     private lateinit var movie: Movie
+
     private lateinit var title: TextView
     private lateinit var overview: TextView
     private lateinit var releaseDate: TextView
     private lateinit var genre: TextView
     private lateinit var website: TextView
     private lateinit var poster: ImageView
+    private lateinit var backdrop: ImageView
+
     private lateinit var share: FloatingActionButton
+
+    private val posterPath = "https://image.tmdb.org/t/p/w780"
+    private val backdropPath = "https://image.tmdb.org/t/p/w500"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,26 +53,29 @@ class MovieDetailActivity : AppCompatActivity() {
         genre = findViewById(R.id.movie_genre)
         website = findViewById(R.id.movie_website)
         poster = findViewById(R.id.movie_poster)
+        backdrop = findViewById(R.id.movie_backdrop)
+
         share = findViewById(R.id.shareButton)
 
         val extras = intent.extras
         if (extras != null) {
-            movie = getMovieByTitle(extras.getString("movie_title",""))
-            populateDetails()
+            if (extras.containsKey("movie_title")) {
+                movie = getMovieByTitle(extras.getString("movie_title",""))
+                populateDetails()
+            } else if (extras.containsKey("movie_id")) {
+                details(extras.getLong("movie_id"))
+            }
         } else {
             finish()
         }
 
         title.setOnClickListener { searchTrailer() }
-
         website.setOnClickListener { showWebsite() }
-
         share.setOnClickListener { shareOverview() }
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment1) as NavHostFragment
         val navController = navHostFragment.navController
         val navView: BottomNavigationView = findViewById(R.id.bottomNavigation1)
-
         navView.setupWithNavController(navController)
     }
 
@@ -68,7 +85,7 @@ class MovieDetailActivity : AppCompatActivity() {
         movies.addAll(getFavoriteMovies())
 
         val movie = movies.find { movie -> name == movie.title }
-        return movie ?: Movie(0, "Test", "Test", "Test", "Test", "Test", "Test", "Test")
+        return movie ?: Movie(0, "Title", "Overview", "Release", "Home", "Genre", "Poster", "Backdrop")
     }
 
     private fun populateDetails() {
@@ -78,14 +95,23 @@ class MovieDetailActivity : AppCompatActivity() {
         genre.text = movie.genre
         website.text = movie.homepage
 
-        val context: Context = poster.context
+        val posterContext: Context = poster.context
+        Glide.with(posterContext)
+            .load(posterPath + movie.posterPath)
+            .centerCrop()
+            .placeholder(R.drawable.undefined)
+            .error(R.drawable.undefined)
+            .fallback(R.drawable.undefined)
+            .into(poster)
 
-        var id: Int = context.resources
-            .getIdentifier(movie.genre, "drawable", context.packageName)
-        if (id == 0) id = context.resources
-            .getIdentifier("undefined", "drawable", context.packageName)
-
-        poster.setImageResource(id)
+        val backdropContext: Context = backdrop.context
+        Glide.with(backdropContext)
+            .load(backdropPath + movie.backdropPath)
+            .centerCrop()
+            .placeholder(R.drawable.backdrop)
+            .error(R.drawable.backdrop)
+            .fallback(R.drawable.backdrop)
+            .into(backdrop)
     }
 
     private fun searchTrailer() {
@@ -123,5 +149,21 @@ class MovieDetailActivity : AppCompatActivity() {
         } catch (e: ActivityNotFoundException) {
             Log.v("Error", e.toString())
         }
+    }
+
+    private fun details(query: Long) {
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+
+        scope.launch {
+            when (val result = MovieRepository.movieDetailsRequest(query)) {
+                is Result.Success<Movie> -> detailsDone(result.data)
+                else -> Toast.makeText(baseContext, "Details error", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun detailsDone(movie: Movie) {
+        this.movie = movie
+        populateDetails()
     }
 }

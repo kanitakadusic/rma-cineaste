@@ -1,12 +1,12 @@
 package ba.unsa.etf.rma.cineaste.models
 
 data class Movie (
-    val id: Long,
-    val title: String,
-    val overview: String,
-    val releaseDate: String,
-    val homepage: String?,
-    val genre: String?,
-    val posterPath: String,
-    val backdropPath: String
+    var id: Long,
+    var title: String,
+    var overview: String,
+    var releaseDate: String,
+    var homepage: String?,
+    var genre: String?,
+    var posterPath: String,
+    var backdropPath: String
 )

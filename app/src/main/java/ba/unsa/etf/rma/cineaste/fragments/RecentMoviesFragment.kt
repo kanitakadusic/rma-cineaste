@@ -15,9 +15,9 @@ import ba.unsa.etf.rma.cineaste.R
 import ba.unsa.etf.rma.cineaste.utils.getRecentMovies
 
 class RecentMoviesFragment : Fragment() {
-    private lateinit var recentMovies: RecyclerView
-    private lateinit var recentMoviesAdapter: MovieListAdapter
-    private var recentMoviesList = getRecentMovies()
+    private lateinit var recentRV: RecyclerView
+    private lateinit var recentMLA: MovieListAdapter
+    private var recentList = getRecentMovies()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,12 +26,12 @@ class RecentMoviesFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_recent_movies, container, false)
 
-        recentMovies = view.findViewById(R.id.recentMovies)
-        recentMovies.layoutManager = GridLayoutManager(activity, 2)
+        recentRV = view.findViewById(R.id.recentMovies)
+        recentRV.layoutManager = GridLayoutManager(activity, 2)
 
-        recentMoviesAdapter = MovieListAdapter(arrayListOf()) { movie -> showMovieDetails(movie) }
-        recentMovies.adapter = recentMoviesAdapter
-        recentMoviesAdapter.updateMovies(recentMoviesList)
+        recentMLA = MovieListAdapter(arrayListOf()) { movie -> showMovieDetails(movie) }
+        recentRV.adapter = recentMLA
+        recentMLA.updateMovies(recentList)
 
         return view
     }

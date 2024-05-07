@@ -8,12 +8,6 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="testIntentActionSend()">
-        <State />
-      </entry>
-      <entry key="testWebSearchAction()">
-        <State />
-      </entry>
     </value>
   </component>
 </project>

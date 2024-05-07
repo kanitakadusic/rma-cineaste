@@ -42,19 +42,13 @@ class MovieListAdapter (
     ) {
         holder.movieTitle.text = movies[position].title
 
-        val genreMatch: String? = movies[position].genre
-        val context: Context = holder.movieImage.context
-
-        var id = 0
-        if (genreMatch !== null) id = context.resources.getIdentifier(genreMatch, "drawable", context.packageName)
-        if (id === 0) id = context.resources.getIdentifier("undefined", "drawable", context.packageName)
-
-        Glide.with(context)
+        val posterContext: Context = holder.movieImage.context
+        Glide.with(posterContext)
             .load(posterPath + movies[position].posterPath)
             .centerCrop()
             .placeholder(R.drawable.undefined)
-            .error(id)
-            .fallback(id)
+            .error(R.drawable.undefined)
+            .fallback(R.drawable.undefined)
             .into(holder.movieImage)
 
         holder.itemView.setOnClickListener { onItemClicked(movies[position]) }

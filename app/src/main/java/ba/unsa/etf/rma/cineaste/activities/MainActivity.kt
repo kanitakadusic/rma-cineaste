@@ -13,7 +13,7 @@ import ba.unsa.etf.rma.cineaste.receivers.ConnectivityBroadcastReceiver
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-    private val br: BroadcastReceiver = ConnectivityBroadcastReceiver()
+    private val receiver: BroadcastReceiver = ConnectivityBroadcastReceiver()
     private val filter = IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         val navView: BottomNavigationView = findViewById(R.id.bottomNavigation)
-
         navView.setupWithNavController(navController)
 
         if(intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain") {
@@ -38,11 +37,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        registerReceiver(br, filter)
+        registerReceiver(receiver, filter)
     }
 
     override fun onPause() {
-        unregisterReceiver(br)
+        unregisterReceiver(receiver)
         super.onPause()
     }
 }
