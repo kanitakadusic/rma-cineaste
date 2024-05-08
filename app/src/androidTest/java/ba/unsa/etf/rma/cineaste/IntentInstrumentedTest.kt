@@ -29,7 +29,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ba.unsa.etf.rma.cineaste.activities.MainActivity
-import ba.unsa.etf.rma.cineaste.activities.MovieDetailActivity
+import ba.unsa.etf.rma.cineaste.activities.DetailsActivity
 import ba.unsa.etf.rma.cineaste.utils.getFavoriteMovies
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
@@ -57,25 +57,25 @@ class IntentInstrumentedTest {
 
     @Test
     fun testDetailActivityInstantiation() {
-        val runDetails = Intent(ApplicationProvider.getApplicationContext(), MovieDetailActivity::class.java)
+        val runDetails = Intent(ApplicationProvider.getApplicationContext(), DetailsActivity::class.java)
         runDetails.putExtra("movie_title","Pride and prejudice")
-        launchActivity<MovieDetailActivity>(runDetails)
+        launchActivity<DetailsActivity>(runDetails)
 
-        onView(withId(R.id.movie_title)).check(matches(withText("Pride and prejudice")))
-        onView(withId(R.id.movie_genre)).check(matches(withText("drama")))
-        onView(withId(R.id.movie_overview)).check(matches(withSubstring("overcome their own pride and prejudice")))
-        onView(withId(R.id.movie_poster)).check(matches(withImage(R.drawable.drama)))
+        onView(withId(R.id.detailsTitle)).check(matches(withText("Pride and prejudice")))
+        onView(withId(R.id.detailsGenre)).check(matches(withText("drama")))
+        onView(withId(R.id.detailsOverview)).check(matches(withSubstring("overcome their own pride and prejudice")))
+        onView(withId(R.id.detailsPoster)).check(matches(withImage(R.drawable.undefined)))
     }
 
     @Test
     fun testLinksIntent() {
         Intents.init()
 
-        val runDetails = Intent(ApplicationProvider.getApplicationContext(), MovieDetailActivity::class.java)
+        val runDetails = Intent(ApplicationProvider.getApplicationContext(), DetailsActivity::class.java)
         runDetails.putExtra("movie_title","Pride and prejudice")
-        launchActivity<MovieDetailActivity>(runDetails)
+        launchActivity<DetailsActivity>(runDetails)
 
-        onView(withId(R.id.movie_website)).perform(click())
+        onView(withId(R.id.detailsWebsite)).perform(click())
         Intents.intended(hasAction(Intent.ACTION_VIEW))
 
         Intents.release()
@@ -83,36 +83,36 @@ class IntentInstrumentedTest {
 
     @Test
     fun testLayoutDetailsActivity() {
-        val runDetails = Intent(ApplicationProvider.getApplicationContext(), MovieDetailActivity::class.java)
+        val runDetails = Intent(ApplicationProvider.getApplicationContext(), DetailsActivity::class.java)
         runDetails.putExtra("movie_title","Pride and prejudice")
-        launchActivity<MovieDetailActivity>(runDetails)
+        launchActivity<DetailsActivity>(runDetails)
 
-        onView(withId(R.id.movie_poster))
-            .check(isCompletelyLeftOf(withId(R.id.movie_title)))
-        onView(withId(R.id.movie_release_date))
-            .check(isCompletelyBelow(withId(R.id.movie_title)))
-        onView(withId(R.id.movie_release_date))
-            .check(isCompletelyRightOf(withId(R.id.movie_poster)))
-        onView(withId(R.id.movie_genre))
-            .check(isCompletelyBelow(withId(R.id.movie_release_date)))
-        onView(withId(R.id.movie_genre))
-            .check(isLeftAlignedWith(withId(R.id.movie_release_date)))
-        onView(withId(R.id.movie_website))
-            .check(isCompletelyBelow(withId(R.id.movie_poster)))
-        onView(withId(R.id.movie_overview))
-            .check(isCompletelyBelow(withId(R.id.movie_website)))
-            .check(isLeftAlignedWith(withId(R.id.movie_website)))
+        onView(withId(R.id.detailsPoster))
+            .check(isCompletelyLeftOf(withId(R.id.detailsTitle)))
+        onView(withId(R.id.detailsReleaseDate))
+            .check(isCompletelyBelow(withId(R.id.detailsTitle)))
+        onView(withId(R.id.detailsReleaseDate))
+            .check(isCompletelyRightOf(withId(R.id.detailsPoster)))
+        onView(withId(R.id.detailsGenre))
+            .check(isCompletelyBelow(withId(R.id.detailsReleaseDate)))
+        onView(withId(R.id.detailsGenre))
+            .check(isLeftAlignedWith(withId(R.id.detailsReleaseDate)))
+        onView(withId(R.id.detailsWebsite))
+            .check(isCompletelyBelow(withId(R.id.detailsPoster)))
+        onView(withId(R.id.detailsOverview))
+            .check(isCompletelyBelow(withId(R.id.detailsWebsite)))
+            .check(isLeftAlignedWith(withId(R.id.detailsWebsite)))
     }
 
     @Test
     fun testWebSearchAction() {
         Intents.init()
 
-        val runDetails = Intent(ApplicationProvider.getApplicationContext(), MovieDetailActivity::class.java)
+        val runDetails = Intent(ApplicationProvider.getApplicationContext(), DetailsActivity::class.java)
         runDetails.putExtra("movie_title","Pride and prejudice")
-        launchActivity<MovieDetailActivity>(runDetails)
+        launchActivity<DetailsActivity>(runDetails)
 
-        onView(withId(R.id.movie_title)).perform(click())
+        onView(withId(R.id.detailsTitle)).perform(click())
         Intents.intended(hasExtra(SearchManager.QUERY, "Pride and prejudice" + " trailer"))
 
         Intents.release()

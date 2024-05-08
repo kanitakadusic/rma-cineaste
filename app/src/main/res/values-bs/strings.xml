@@ -2,15 +2,13 @@
 <resources>
     <string name="app_name">Cineaste</string>
 
-    <string name="search">Traži</string>
     <string name="favorite">Omiljeni</string>
     <string name="upcoming">Predstojeći</string>
+    <string name="search">Traži</string>
+
+    <string name="actors">Glumci</string>
+    <string name="similar">Slični</string>
 
     <string name="favorite_movies">Omiljeni filmovi</string>
     <string name="upcoming_movies">Predstojeći filmovi</string>
-
-    <string name="genre">Žanr</string>
-
-    <string name="movie">Film</string>
-    <string name="share">Podijeli</string>
 </resources>

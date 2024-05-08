@@ -4,10 +4,12 @@
 
     <item
         android:id="@+id/actorsFragment"
-        android:title="Actors" />
+        android:icon="@drawable/actors_24px"
+        android:title="@string/actors" />
 
     <item
         android:id="@+id/similarFragment"
-        android:title="Similar Movies" />
+        android:icon="@drawable/similar_24px"
+        android:title="@string/similar" />
 
 </menu>

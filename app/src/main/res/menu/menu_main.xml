@@ -3,18 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@id/favoriteMoviesFragment"
-        android:icon="@android:drawable/btn_star_big_off"
+        android:id="@id/favoriteFragment"
+        android:icon="@drawable/favorite_24px"
         android:title="@string/favorite" />
 
     <item
-        android:id="@id/recentMoviesFragment"
-        android:icon="@android:drawable/ic_popup_reminder"
+        android:id="@id/upcomingFragment"
+        android:icon="@drawable/upcoming_24px"
         android:title="@string/upcoming" />
 
     <item
         android:id="@id/searchFragment"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/search_24px"
         android:title="@string/search" />
 
 </menu>

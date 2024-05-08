@@ -27,7 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class MovieDetailActivity : AppCompatActivity() {
+class DetailsActivity : AppCompatActivity() {
     private lateinit var movie: Movie
 
     private lateinit var title: TextView
@@ -45,15 +45,15 @@ class MovieDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_movie_detail)
+        setContentView(R.layout.activity_details)
 
-        title = findViewById(R.id.movie_title)
-        overview = findViewById(R.id.movie_overview)
-        releaseDate = findViewById(R.id.movie_release_date)
-        genre = findViewById(R.id.movie_genre)
-        website = findViewById(R.id.movie_website)
-        poster = findViewById(R.id.movie_poster)
-        backdrop = findViewById(R.id.movie_backdrop)
+        title = findViewById(R.id.detailsTitle)
+        overview = findViewById(R.id.detailsOverview)
+        releaseDate = findViewById(R.id.detailsReleaseDate)
+        genre = findViewById(R.id.detailsGenre)
+        website = findViewById(R.id.detailsWebsite)
+        poster = findViewById(R.id.detailsPoster)
+        backdrop = findViewById(R.id.detailsBackdrop)
 
         share = findViewById(R.id.shareButton)
 
@@ -73,9 +73,9 @@ class MovieDetailActivity : AppCompatActivity() {
         website.setOnClickListener { showWebsite() }
         share.setOnClickListener { shareOverview() }
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment1) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.hostFragmentDetails) as NavHostFragment
         val navController = navHostFragment.navController
-        val navView: BottomNavigationView = findViewById(R.id.bottomNavigation1)
+        val navView: BottomNavigationView = findViewById(R.id.bottomNavigationDetails)
         navView.setupWithNavController(navController)
     }
 
@@ -99,6 +99,7 @@ class MovieDetailActivity : AppCompatActivity() {
         Glide.with(posterContext)
             .load(posterPath + movie.posterPath)
             .centerCrop()
+            .centerCrop()
             .placeholder(R.drawable.undefined)
             .error(R.drawable.undefined)
             .fallback(R.drawable.undefined)
@@ -108,9 +109,10 @@ class MovieDetailActivity : AppCompatActivity() {
         Glide.with(backdropContext)
             .load(backdropPath + movie.backdropPath)
             .centerCrop()
-            .placeholder(R.drawable.backdrop)
-            .error(R.drawable.backdrop)
-            .fallback(R.drawable.backdrop)
+            .centerCrop()
+            .placeholder(R.drawable.undefined)
+            .error(R.drawable.undefined)
+            .fallback(R.drawable.undefined)
             .into(backdrop)
     }
 

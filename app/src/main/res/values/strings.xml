@@ -1,15 +1,13 @@
 <resources>
     <string name="app_name" translatable="false">Cineaste</string>
 
-    <string name="search">Search</string>
     <string name="favorite">Favorite</string>
     <string name="upcoming">Upcoming</string>
+    <string name="search">Search</string>
+
+    <string name="actors">Actors</string>
+    <string name="similar">Similar</string>
 
     <string name="favorite_movies">Favorite movies</string>
     <string name="upcoming_movies">Upcoming movies</string>
-
-    <string name="genre">Genre</string>
-
-    <string name="movie">Movie</string>
-    <string name="share">Share</string>
 </resources>

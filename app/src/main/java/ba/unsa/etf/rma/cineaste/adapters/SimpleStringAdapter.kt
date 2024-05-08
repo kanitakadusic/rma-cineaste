@@ -5,16 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ba.unsa.etf.rma.cineaste.R
 
 class SimpleStringAdapter(
     var list: List<String>
 ) :RecyclerView.Adapter<SimpleStringAdapter.SimpleViewHolder>() {
-
-    inner class SimpleViewHolder(
-        itemView: View
-    ) : RecyclerView.ViewHolder(itemView) {
-        val textElement: TextView = itemView.findViewById(android.R.id.text1)
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -22,7 +17,7 @@ class SimpleStringAdapter(
     ): SimpleViewHolder {
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(android.R.layout.simple_list_item_1, parent, false)
+            .inflate(R.layout.item_simple_string, parent, false)
 
         return SimpleViewHolder(view)
     }
@@ -33,6 +28,12 @@ class SimpleStringAdapter(
         holder: SimpleViewHolder,
         position: Int
     ) {
-        holder.textElement.text = list[position]
+        holder.string.text = list[position]
+    }
+
+    inner class SimpleViewHolder(
+        itemView: View
+    ) : RecyclerView.ViewHolder(itemView) {
+        val string: TextView = itemView.findViewById(R.id.simple_string)
     }
 }

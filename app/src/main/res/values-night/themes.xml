@@ -1,20 +1,32 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.Cineaste" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/purpleLight</item>
-        <item name="colorPrimaryVariant">@color/purpleDark</item>
+        <!-- ... -->
+    </style>
+
+    <style name="Theme.Cineaste" parent="Base.Theme.Cineaste">
+        <item name="colorPrimary">@color/lightBlue_200</item>
+        <item name="colorPrimaryVariant">@color/lightBlue_500</item>
         <item name="colorOnPrimary">@color/black</item>
 
-        <item name="colorSecondary">@color/cyan</item>
-        <item name="colorSecondaryVariant">@color/cyan</item>
+        <item name="colorSecondary">@color/amber_200</item>
+        <item name="colorSecondaryVariant">@color/amber_500</item>
         <item name="colorOnSecondary">@color/black</item>
 
-        <item name="backgroundColor">@color/blackLight</item>
-        <item name="colorOnBackground">@color/white</item>
+        <item name="backgroundColor">@color/grey_900</item>
+        <item name="colorOnBackground">@color/grey_50</item>
 
-        <item name="colorSurface">@color/blackLight</item>
-        <item name="colorOnSurface">@color/white</item>
+        <item name="colorSurface">@color/grey_850</item>
+        <item name="colorOnSurface">@color/grey_200</item>
 
-        <item name="colorError">@color/redLight</item>
-        <item name="colorOnError">@color/black</item>
+        <item name="colorError">@color/red_a200</item>
+        <item name="colorOutline">@color/grey_850</item>
+
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/grey_50</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+
+        <item name="android:windowBackground">@color/grey_900</item>
+        <item name="android:statusBarColor">?attr/backgroundColor</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

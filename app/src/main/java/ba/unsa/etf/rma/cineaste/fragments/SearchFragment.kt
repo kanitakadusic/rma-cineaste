@@ -12,7 +12,7 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.unsa.etf.rma.cineaste.R
-import ba.unsa.etf.rma.cineaste.activities.MovieDetailActivity
+import ba.unsa.etf.rma.cineaste.activities.DetailsActivity
 import ba.unsa.etf.rma.cineaste.adapters.MovieListAdapter
 import ba.unsa.etf.rma.cineaste.models.Movie
 import ba.unsa.etf.rma.cineaste.repositories.MovieRepository
@@ -52,7 +52,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun showMovieDetails(movie: Movie) {
-        val intent = Intent(activity, MovieDetailActivity::class.java).apply {
+        val intent = Intent(activity, DetailsActivity::class.java).apply {
             putExtra("movie_id", movie.id)
         }
 

@@ -9,35 +9,35 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.unsa.etf.rma.cineaste.models.Movie
-import ba.unsa.etf.rma.cineaste.activities.MovieDetailActivity
+import ba.unsa.etf.rma.cineaste.activities.DetailsActivity
 import ba.unsa.etf.rma.cineaste.adapters.MovieListAdapter
 import ba.unsa.etf.rma.cineaste.R
-import ba.unsa.etf.rma.cineaste.utils.getFavoriteMovies
+import ba.unsa.etf.rma.cineaste.utils.getRecentMovies
 
-class FavoriteMoviesFragment : Fragment() {
-    private lateinit var favoriteRV: RecyclerView
-    private lateinit var favoriteMLA: MovieListAdapter
-    private var favoriteList = getFavoriteMovies()
+class UpcomingFragment : Fragment() {
+    private lateinit var recentRV: RecyclerView
+    private lateinit var recentMLA: MovieListAdapter
+    private var recentList = getRecentMovies()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_favorite_movies, container, false)
+        val view = inflater.inflate(R.layout.fragment_upcoming, container, false)
 
-        favoriteRV = view.findViewById(R.id.favoriteMovies)
-        favoriteRV.layoutManager = GridLayoutManager(activity, 2)
+        recentRV = view.findViewById(R.id.upcomingMovies)
+        recentRV.layoutManager = GridLayoutManager(activity, 2)
 
-        favoriteMLA = MovieListAdapter(arrayListOf()) { movie -> showMovieDetails(movie) }
-        favoriteRV.adapter = favoriteMLA
-        favoriteMLA.updateMovies(favoriteList)
+        recentMLA = MovieListAdapter(arrayListOf()) { movie -> showMovieDetails(movie) }
+        recentRV.adapter = recentMLA
+        recentMLA.updateMovies(recentList)
 
         return view
     }
 
     private fun showMovieDetails(movie: Movie) {
-        val intent = Intent(activity, MovieDetailActivity::class.java).apply {
+        val intent = Intent(activity, DetailsActivity::class.java).apply {
             putExtra("movie_title", movie.title)
         }
 
