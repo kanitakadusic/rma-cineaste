@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.unsa.etf.rma.cineaste.R
 import ba.unsa.etf.rma.cineaste.adapters.SimpleStringAdapter
-import ba.unsa.etf.rma.cineaste.repositories.MovieRepository
-import ba.unsa.etf.rma.cineaste.repositories.Result
+import ba.unsa.etf.rma.cineaste.utils.TmdbApiCalls
+import ba.unsa.etf.rma.cineaste.utils.Result
 import ba.unsa.etf.rma.cineaste.utils.getMovieActors
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,7 +53,7 @@ class ActorsFragment : Fragment() {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
         scope.launch {
-            when (val result = MovieRepository.movieActorsRequest(query)) {
+            when (val result = TmdbApiCalls.movieActorsRequest(query)) {
                 is Result.Success<MutableList<String>> -> actorsDone(result.data)
                 else -> Toast.makeText(context, "Actors error", Toast.LENGTH_SHORT).show()
             }

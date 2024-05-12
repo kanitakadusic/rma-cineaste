@@ -9,14 +9,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ba.unsa.etf.rma.cineaste.models.Movie
 import ba.unsa.etf.rma.cineaste.R
+import ba.unsa.etf.rma.cineaste.utils.TmdbApiCalls
 import com.bumptech.glide.Glide
 
 class MovieListAdapter (
     private var movies: List<Movie>,
     private val onItemClicked: (movie: Movie) -> Unit
 ) : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>() {
-
-    private val posterPath = "https://image.tmdb.org/t/p/w342"
 
     fun updateMovies(movies: List<Movie>) {
         this.movies = movies
@@ -44,7 +43,7 @@ class MovieListAdapter (
 
         val posterContext: Context = holder.movieImage.context
         Glide.with(posterContext)
-            .load(posterPath + movies[position].posterPath)
+            .load(TmdbApiCalls.POSTER_PATH + movies[position].posterPath)
             .centerCrop()
             .placeholder(R.drawable.undefined)
             .error(R.drawable.undefined)

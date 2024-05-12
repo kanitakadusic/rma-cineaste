@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import ba.unsa.etf.rma.cineaste.R
 import ba.unsa.etf.rma.cineaste.receivers.ConnectivityBroadcastReceiver
+import ba.unsa.etf.rma.cineaste.services.LatestService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +33,11 @@ class MainActivity : AppCompatActivity() {
                 navView.selectedItemId = R.id.searchFragment
                 navController.navigate(R.id.searchFragment, bundle)
             }
+        }
+
+        Intent(this, LatestService::class.java).also {
+            startForegroundService(it)
+            return
         }
     }
 

@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.unsa.etf.rma.cineaste.R
 import ba.unsa.etf.rma.cineaste.adapters.SimpleStringAdapter
-import ba.unsa.etf.rma.cineaste.repositories.MovieRepository
-import ba.unsa.etf.rma.cineaste.repositories.Result
+import ba.unsa.etf.rma.cineaste.utils.TmdbApiCalls
+import ba.unsa.etf.rma.cineaste.utils.Result
 import ba.unsa.etf.rma.cineaste.utils.getSimilarMovies
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,7 +53,7 @@ class SimilarFragment : Fragment() {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
         scope.launch {
-            when (val result = MovieRepository.similarMoviesRequest(query)) {
+            when (val result = TmdbApiCalls.similarMoviesRequest(query)) {
                 is Result.Success<MutableList<String>> -> similarDone(result.data)
                 else -> Toast.makeText(context, "Similar error", Toast.LENGTH_SHORT).show()
             }

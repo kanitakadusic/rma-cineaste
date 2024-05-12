@@ -13,10 +13,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import ba.unsa.etf.rma.cineaste.models.Movie
 import ba.unsa.etf.rma.cineaste.R
-import ba.unsa.etf.rma.cineaste.repositories.MovieRepository
-import ba.unsa.etf.rma.cineaste.repositories.Result
+import ba.unsa.etf.rma.cineaste.models.Movie
+import ba.unsa.etf.rma.cineaste.utils.Result
+import ba.unsa.etf.rma.cineaste.utils.TmdbApiCalls
 import ba.unsa.etf.rma.cineaste.utils.getFavoriteMovies
 import ba.unsa.etf.rma.cineaste.utils.getRecentMovies
 import com.bumptech.glide.Glide
@@ -39,9 +39,6 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var backdrop: ImageView
 
     private lateinit var share: FloatingActionButton
-
-    private val posterPath = "https://image.tmdb.org/t/p/w780"
-    private val backdropPath = "https://image.tmdb.org/t/p/w500"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +82,7 @@ class DetailsActivity : AppCompatActivity() {
         movies.addAll(getFavoriteMovies())
 
         val movie = movies.find { movie -> name == movie.title }
-        return movie ?: Movie(0, "Title", "Overview", "Release", "Home", "Genre", "Poster", "Backdrop")
+        return movie ?: Movie(0, "", "", "", "", "", "", "")
     }
 
     private fun populateDetails() {
@@ -97,7 +94,7 @@ class DetailsActivity : AppCompatActivity() {
 
         val posterContext: Context = poster.context
         Glide.with(posterContext)
-            .load(posterPath + movie.posterPath)
+            .load(TmdbApiCalls.POSTER_PATH + movie.posterPath)
             .centerCrop()
             .centerCrop()
             .placeholder(R.drawable.undefined)
@@ -107,7 +104,7 @@ class DetailsActivity : AppCompatActivity() {
 
         val backdropContext: Context = backdrop.context
         Glide.with(backdropContext)
-            .load(backdropPath + movie.backdropPath)
+            .load(TmdbApiCalls.BACKDROP_PATH + movie.backdropPath)
             .centerCrop()
             .centerCrop()
             .placeholder(R.drawable.undefined)
@@ -157,7 +154,7 @@ class DetailsActivity : AppCompatActivity() {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
         scope.launch {
-            when (val result = MovieRepository.movieDetailsRequest(query)) {
+            when (val result = TmdbApiCalls.movieDetailsRequest(query)) {
                 is Result.Success<Movie> -> detailsDone(result.data)
                 else -> Toast.makeText(baseContext, "Details error", Toast.LENGTH_SHORT).show()
             }

@@ -15,8 +15,8 @@ import ba.unsa.etf.rma.cineaste.R
 import ba.unsa.etf.rma.cineaste.activities.DetailsActivity
 import ba.unsa.etf.rma.cineaste.adapters.MovieListAdapter
 import ba.unsa.etf.rma.cineaste.models.Movie
-import ba.unsa.etf.rma.cineaste.repositories.MovieRepository
-import ba.unsa.etf.rma.cineaste.repositories.Result
+import ba.unsa.etf.rma.cineaste.utils.TmdbApiCalls
+import ba.unsa.etf.rma.cineaste.utils.Result
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -63,7 +63,7 @@ class SearchFragment : Fragment() {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
         scope.launch {
-            when (val result = MovieRepository.searchRequest(query)) {
+            when (val result = TmdbApiCalls.searchRequest(query)) {
                 is Result.Success<List<Movie>> -> searchDone(result.data)
                 else -> Toast.makeText(context, "Search error", Toast.LENGTH_SHORT).show()
             }

@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste.repositories
+package ba.unsa.etf.rma.cineaste.utils
 
 import ba.unsa.etf.rma.cineaste.models.Movie
 import kotlinx.coroutines.Dispatchers
@@ -15,8 +15,11 @@ sealed class Result<out R> {
     data class Error(val exception: Exception) : Result<Nothing>()
 }
 
-object MovieRepository {
-    private const val TMDB_API_KEY : String = "ee55b02ae6bf27432628578186bfd732"
+object TmdbApiCalls {
+    private const val TMDB_API_KEY = Constants.TMDB_API_KEY
+
+    const val POSTER_PATH = "https://image.tmdb.org/t/p/w780"
+    const val BACKDROP_PATH = "https://image.tmdb.org/t/p/w500"
 
     suspend fun searchRequest(
         query: String
@@ -62,10 +65,10 @@ object MovieRepository {
 
     suspend fun movieDetailsRequest(
         id: Long
-    ):Result<Movie> {
+    ): Result<Movie> {
         return withContext(Dispatchers.IO) {
             try {
-                val movie = Movie(0, "Title", "Overview", "release", "home", "genre", "poster", "backdrop")
+                val movie = Movie(0, "", "", "", "", "", "", "")
 
                 val urlString = "https://api.themoviedb.org/3/movie/$id?api_key=$TMDB_API_KEY"
                 val url = URL(urlString)
@@ -159,6 +162,39 @@ object MovieRepository {
                 }
 
                 return@withContext Result.Success(actors)
+            } catch (e: MalformedURLException) {
+                return@withContext Result.Error(Exception("Cannot open HttpURLConnection"))
+            } catch (e: IOException) {
+                return@withContext Result.Error(Exception("Cannot read stream"))
+            } catch (e: JSONException) {
+                return@withContext Result.Error(Exception("Cannot parse JSON"))
+            }
+        }
+    }
+
+    suspend fun latestMovieRequest(): Result<Movie> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val movie = Movie(0, "", "", "", "", "", "", "")
+
+                val urlString = "https://api.themoviedb.org/3/movie/latest?api_key=${TMDB_API_KEY}"
+                val url = URL(urlString)
+
+                (url.openConnection() as? HttpURLConnection)?.run {
+                    val result = this.inputStream.bufferedReader().use { it.readText() }
+                    val jsonObject = JSONObject(result)
+
+                    movie.id = jsonObject.getLong("id")
+                    movie.title = jsonObject.getString("original_title")
+                    movie.overview = jsonObject.getString("overview")
+
+                    if (!jsonObject.getBoolean("adult")) {
+                        movie.posterPath = jsonObject.getString("poster_path")
+                        movie.backdropPath = jsonObject.getString("backdrop_path")
+                    }
+                }
+
+                return@withContext Result.Success(movie)
             } catch (e: MalformedURLException) {
                 return@withContext Result.Error(Exception("Cannot open HttpURLConnection"))
             } catch (e: IOException) {
