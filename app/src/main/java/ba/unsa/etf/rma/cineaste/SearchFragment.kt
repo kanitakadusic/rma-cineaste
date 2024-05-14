@@ -57,7 +57,7 @@ class SearchFragment : Fragment() {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
         scope.launch {
-            when (val result = TmdbApiCalls.searchRequest(query)) {
+            when (val result = MovieRepository.searchRequest(query)) {
                 is Result.Success<List<Movie>> -> searchDone(result.data)
                 else -> Toast.makeText(context, "Search error", Toast.LENGTH_SHORT).show()
             }

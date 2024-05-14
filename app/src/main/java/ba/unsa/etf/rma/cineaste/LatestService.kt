@@ -77,7 +77,7 @@ class LatestService : Service() {
         GlobalScope.launch(Dispatchers.IO) {
             while (serviceStarted) {
                 launch(Dispatchers.IO) {
-                    when (val result = TmdbApiCalls.latestMovieRequest()) {
+                    when (val result = MovieRepository.latestMovieRequest()) {
                         is Result.Success<Movie> -> latestDone(result.data)
                         else -> Log.e("TAG67", "Latest error")
                     }

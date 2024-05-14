@@ -48,7 +48,7 @@ class SimilarFragment : Fragment() {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
         scope.launch {
-            when (val result = TmdbApiCalls.similarMoviesRequest(query)) {
+            when (val result = MovieRepository.similarMoviesRequest(query)) {
                 is Result.Success<MutableList<String>> -> similarDone(result.data)
                 else -> Toast.makeText(context, "Similar error", Toast.LENGTH_SHORT).show()
             }

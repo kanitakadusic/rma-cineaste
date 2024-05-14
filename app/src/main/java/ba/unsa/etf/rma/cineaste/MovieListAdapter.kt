@@ -40,7 +40,7 @@ class MovieListAdapter (
 
         val posterContext: Context = holder.movieImage.context
         Glide.with(posterContext)
-            .load(TmdbApiCalls.POSTER_PATH + movies[position].posterPath)
+            .load(MovieRepository.POSTER_PATH + movies[position].posterPath)
             .centerCrop()
             .placeholder(R.drawable.undefined)
             .error(R.drawable.undefined)

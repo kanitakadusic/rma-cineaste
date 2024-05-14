@@ -51,7 +51,7 @@ class LatestActivity : AppCompatActivity() {
 
         val posterContext: Context = poster.context
         Glide.with(posterContext)
-            .load(TmdbApiCalls.POSTER_PATH + movie.posterPath)
+            .load(MovieRepository.POSTER_PATH + movie.posterPath)
             .centerCrop()
             .centerCrop()
             .placeholder(R.drawable.undefined)
@@ -61,7 +61,7 @@ class LatestActivity : AppCompatActivity() {
 
         val backdropContext: Context = backdrop.context
         Glide.with(backdropContext)
-            .load(TmdbApiCalls.BACKDROP_PATH + movie.backdropPath)
+            .load(MovieRepository.BACKDROP_PATH + movie.backdropPath)
             .centerCrop()
             .centerCrop()
             .placeholder(R.drawable.undefined)

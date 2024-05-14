@@ -21,7 +21,7 @@ class UnitTests {
 
     @Test
     fun testGetRecentMovies() {
-        val movies = getRecentMovies()
+        val movies = getUpcomingMovies()
 
         assertEquals(movies.size, 3)
         assertThat(movies, hasItem<Movie>(hasProperty("title", `is`("Dune: Part Two"))))

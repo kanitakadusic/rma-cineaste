@@ -70,7 +70,7 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun getMovieByTitle(name: String): Movie {
         val movies: ArrayList<Movie> = arrayListOf()
-        movies.addAll(getRecentMovies())
+        movies.addAll(getUpcomingMovies())
         movies.addAll(getFavoriteMovies())
 
         val movie = movies.find { movie -> name == movie.title }
@@ -85,7 +85,7 @@ class DetailsActivity : AppCompatActivity() {
 
         val posterContext: Context = poster.context
         Glide.with(posterContext)
-            .load(TmdbApiCalls.POSTER_PATH + movie.posterPath)
+            .load(MovieRepository.POSTER_PATH + movie.posterPath)
             .centerCrop()
             .centerCrop()
             .placeholder(R.drawable.undefined)
@@ -95,7 +95,7 @@ class DetailsActivity : AppCompatActivity() {
 
         val backdropContext: Context = backdrop.context
         Glide.with(backdropContext)
-            .load(TmdbApiCalls.BACKDROP_PATH + movie.backdropPath)
+            .load(MovieRepository.BACKDROP_PATH + movie.backdropPath)
             .centerCrop()
             .centerCrop()
             .placeholder(R.drawable.undefined)
@@ -145,7 +145,7 @@ class DetailsActivity : AppCompatActivity() {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
         scope.launch {
-            when (val result = TmdbApiCalls.movieDetailsRequest(query)) {
+            when (val result = MovieRepository.movieDetailsRequest(query)) {
                 is Result.Success<Movie> -> detailsDone(result.data)
                 else -> Toast.makeText(baseContext, "Details error", Toast.LENGTH_SHORT).show()
             }

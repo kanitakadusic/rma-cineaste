@@ -14,11 +14,18 @@ sealed class Result<out R> {
     data class Error(val exception: Exception) : Result<Nothing>()
 }
 
-object TmdbApiCalls {
+object MovieRepository {
     private const val TMDB_API_KEY = Constants.TMDB_API_KEY
 
     const val POSTER_PATH = "https://image.tmdb.org/t/p/w780"
     const val BACKDROP_PATH = "https://image.tmdb.org/t/p/w500"
+
+    suspend fun getUpcomingMovies(): GetMoviesResponse? {
+        return withContext(Dispatchers.IO) {
+            val response = ApiAdapter.retrofit.getUpcomingMovies()
+            return@withContext response.body()
+        }
+    }
 
     suspend fun searchRequest(
         query: String

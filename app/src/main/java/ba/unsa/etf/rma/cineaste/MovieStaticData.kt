@@ -32,7 +32,7 @@ fun getFavoriteMovies(): List<Movie> {
     )
 }
 
-fun getRecentMovies(): List<Movie> {
+fun getUpcomingMovies(): List<Movie> {
     return listOf(
         Movie(
             2001,

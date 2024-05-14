@@ -6,13 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class UpcomingFragment : Fragment() {
-    private lateinit var recentRV: RecyclerView
-    private lateinit var recentMLA: MovieListAdapter
-    private var recentList = getRecentMovies()
+    private lateinit var upcomingRV: RecyclerView
+    private lateinit var upcomingMLA: MovieListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,12 +25,13 @@ class UpcomingFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_upcoming, container, false)
 
-        recentRV = view.findViewById(R.id.upcomingMovies)
-        recentRV.layoutManager = GridLayoutManager(activity, 2)
+        upcomingRV = view.findViewById(R.id.upcomingMovies)
+        upcomingRV.layoutManager = GridLayoutManager(activity, 2)
 
-        recentMLA = MovieListAdapter(arrayListOf()) { movie -> showMovieDetails(movie) }
-        recentRV.adapter = recentMLA
-        recentMLA.updateMovies(recentList)
+        upcomingMLA = MovieListAdapter(arrayListOf()) { movie -> showMovieDetails(movie) }
+        upcomingRV.adapter = upcomingMLA
+
+        getUpcoming()
 
         return view
     }
@@ -37,5 +42,25 @@ class UpcomingFragment : Fragment() {
         }
 
         startActivity(intent)
+    }
+
+    private fun getUpcoming() {
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+
+        scope.launch {
+            when (val result = MovieRepository.getUpcomingMovies()) {
+                is GetMoviesResponse -> onSuccess(result.movies)
+                else -> onError()
+            }
+        }
+    }
+
+    private fun onSuccess(movies: List<Movie>) {
+        Toast.makeText(context, "Upcoming success", Toast.LENGTH_SHORT).show()
+        upcomingMLA.updateMovies(movies)
+    }
+
+    private fun onError() {
+        Toast.makeText(context, "Upcoming error", Toast.LENGTH_SHORT).show()
     }
 }

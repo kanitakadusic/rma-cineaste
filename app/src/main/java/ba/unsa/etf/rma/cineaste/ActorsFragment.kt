@@ -48,7 +48,7 @@ class ActorsFragment : Fragment() {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
         scope.launch {
-            when (val result = TmdbApiCalls.movieActorsRequest(query)) {
+            when (val result = MovieRepository.movieActorsRequest(query)) {
                 is Result.Success<MutableList<String>> -> actorsDone(result.data)
                 else -> Toast.makeText(context, "Actors error", Toast.LENGTH_SHORT).show()
             }
