@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class ActorsFragment : Fragment() {
     private lateinit var actorsRV: RecyclerView
-    private lateinit var actorsSSA: SimpleStringAdapter
+    private lateinit var actorsSLA: StringListAdapter
     private var actorsList: List<String> = listOf()
 
     override fun onCreateView(
@@ -38,8 +38,8 @@ class ActorsFragment : Fragment() {
         actorsRV = view.findViewById(R.id.listActors)
         actorsRV.layoutManager = LinearLayoutManager(activity)
 
-        actorsSSA = SimpleStringAdapter(actorsList)
-        actorsRV.adapter = actorsSSA
+        actorsSLA = StringListAdapter(actorsList)
+        actorsRV.adapter = actorsSLA
 
         return view
     }
@@ -57,7 +57,7 @@ class ActorsFragment : Fragment() {
 
     private fun actorsDone(actors: MutableList<String>) {
         actorsList = actors
-        actorsSSA.list = actors
-        actorsSSA.notifyDataSetChanged()
+        actorsSLA.list = actors
+        actorsSLA.notifyDataSetChanged()
     }
 }

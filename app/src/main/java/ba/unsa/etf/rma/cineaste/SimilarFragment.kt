@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class SimilarFragment : Fragment() {
     private lateinit var similarRV: RecyclerView
-    private lateinit var similarSSA: SimpleStringAdapter
+    private lateinit var similarSLA: StringListAdapter
     private var similarList: List<String> = listOf()
 
     override fun onCreateView(
@@ -38,8 +38,8 @@ class SimilarFragment : Fragment() {
         similarRV = view.findViewById(R.id.listSimilar)
         similarRV.layoutManager = LinearLayoutManager(activity)
 
-        similarSSA = SimpleStringAdapter(similarList)
-        similarRV.adapter = similarSSA
+        similarSLA = StringListAdapter(similarList)
+        similarRV.adapter = similarSLA
 
         return view
     }
@@ -57,7 +57,7 @@ class SimilarFragment : Fragment() {
 
     private fun similarDone(similar: MutableList<String>) {
         similarList = similar
-        similarSSA.list = similar
-        similarSSA.notifyDataSetChanged()
+        similarSLA.list = similar
+        similarSLA.notifyDataSetChanged()
     }
 }

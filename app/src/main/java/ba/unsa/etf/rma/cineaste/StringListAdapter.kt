@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class SimpleStringAdapter(
+class StringListAdapter(
     var list: List<String>
-) :RecyclerView.Adapter<SimpleStringAdapter.SimpleViewHolder>() {
+) :RecyclerView.Adapter<StringListAdapter.SimpleViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
