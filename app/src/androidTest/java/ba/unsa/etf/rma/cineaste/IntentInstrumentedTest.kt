@@ -28,9 +28,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ba.unsa.etf.rma.cineaste.activities.MainActivity
-import ba.unsa.etf.rma.cineaste.activities.DetailsActivity
-import ba.unsa.etf.rma.cineaste.utils.getFavoriteMovies
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 import org.junit.Rule
@@ -62,7 +59,6 @@ class IntentInstrumentedTest {
         launchActivity<DetailsActivity>(runDetails)
 
         onView(withId(R.id.detailsTitle)).check(matches(withText("Pride and prejudice")))
-        onView(withId(R.id.detailsGenre)).check(matches(withText("drama")))
         onView(withId(R.id.detailsOverview)).check(matches(withSubstring("overcome their own pride and prejudice")))
         onView(withId(R.id.detailsPoster)).check(matches(withImage(R.drawable.undefined)))
     }
@@ -93,10 +89,6 @@ class IntentInstrumentedTest {
             .check(isCompletelyBelow(withId(R.id.detailsTitle)))
         onView(withId(R.id.detailsReleaseDate))
             .check(isCompletelyRightOf(withId(R.id.detailsPoster)))
-        onView(withId(R.id.detailsGenre))
-            .check(isCompletelyBelow(withId(R.id.detailsReleaseDate)))
-        onView(withId(R.id.detailsGenre))
-            .check(isLeftAlignedWith(withId(R.id.detailsReleaseDate)))
         onView(withId(R.id.detailsWebsite))
             .check(isCompletelyBelow(withId(R.id.detailsPoster)))
         onView(withId(R.id.detailsOverview))

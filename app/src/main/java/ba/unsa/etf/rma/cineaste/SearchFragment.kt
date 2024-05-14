@@ -1,22 +1,16 @@
-package ba.unsa.etf.rma.cineaste.fragments
+package ba.unsa.etf.rma.cineaste
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ba.unsa.etf.rma.cineaste.R
-import ba.unsa.etf.rma.cineaste.activities.DetailsActivity
-import ba.unsa.etf.rma.cineaste.adapters.MovieListAdapter
-import ba.unsa.etf.rma.cineaste.models.Movie
-import ba.unsa.etf.rma.cineaste.utils.TmdbApiCalls
-import ba.unsa.etf.rma.cineaste.utils.Result
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

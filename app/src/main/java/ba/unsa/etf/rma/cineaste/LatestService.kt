@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste.services
+package ba.unsa.etf.rma.cineaste
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -15,11 +15,6 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import ba.unsa.etf.rma.cineaste.activities.LatestActivity
-import ba.unsa.etf.rma.cineaste.models.Movie
-import ba.unsa.etf.rma.cineaste.utils.Constants
-import ba.unsa.etf.rma.cineaste.utils.Result
-import ba.unsa.etf.rma.cineaste.utils.TmdbApiCalls
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

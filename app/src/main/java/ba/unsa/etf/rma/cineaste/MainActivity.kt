@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste.activities
+package ba.unsa.etf.rma.cineaste
 
 import android.content.BroadcastReceiver
 import android.content.Intent
@@ -8,9 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import ba.unsa.etf.rma.cineaste.R
-import ba.unsa.etf.rma.cineaste.receivers.ConnectivityBroadcastReceiver
-import ba.unsa.etf.rma.cineaste.services.LatestService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {

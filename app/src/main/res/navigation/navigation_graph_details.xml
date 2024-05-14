@@ -8,14 +8,14 @@
 
     <fragment
         android:id="@+id/actorsFragment"
-        android:name="ba.unsa.etf.rma.cineaste.fragments.ActorsFragment"
+        android:name="ba.unsa.etf.rma.cineaste.ActorsFragment"
         android:label="fragment_actors"
         tools:layout="@layout/fragment_actors" >
     </fragment>
 
     <fragment
         android:id="@+id/similarFragment"
-        android:name="ba.unsa.etf.rma.cineaste.fragments.SimilarFragment"
+        android:name="ba.unsa.etf.rma.cineaste.SimilarFragment"
         android:label="fragment_similar"
         tools:layout="@layout/fragment_similar" >
     </fragment>

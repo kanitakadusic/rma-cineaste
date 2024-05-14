@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste.activities
+package ba.unsa.etf.rma.cineaste
 
 import android.app.NotificationManager
 import android.content.Context
@@ -8,14 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import ba.unsa.etf.rma.cineaste.R
-import ba.unsa.etf.rma.cineaste.models.Movie
-import ba.unsa.etf.rma.cineaste.utils.Constants
-import ba.unsa.etf.rma.cineaste.utils.TmdbApiCalls
 import com.bumptech.glide.Glide
 
 class LatestActivity : AppCompatActivity() {
-    private var movie = Movie(0, "", "", "", "", "", "", "")
+    private var movie = Movie(0, "", "", "", "", "", "")
 
     private lateinit var title: TextView
     private lateinit var overview: TextView

@@ -1,11 +1,10 @@
-package ba.unsa.etf.rma.cineaste.adapters
+package ba.unsa.etf.rma.cineaste
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import ba.unsa.etf.rma.cineaste.R
 
 class SimpleStringAdapter(
     var list: List<String>

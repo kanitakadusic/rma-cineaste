@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste.adapters
+package ba.unsa.etf.rma.cineaste
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,9 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import ba.unsa.etf.rma.cineaste.models.Movie
-import ba.unsa.etf.rma.cineaste.R
-import ba.unsa.etf.rma.cineaste.utils.TmdbApiCalls
 import com.bumptech.glide.Glide
 
 class MovieListAdapter (

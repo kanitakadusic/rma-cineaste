@@ -1,8 +1,5 @@
 package ba.unsa.etf.rma.cineaste
 
-import ba.unsa.etf.rma.cineaste.models.Movie
-import ba.unsa.etf.rma.cineaste.utils.getFavoriteMovies
-import ba.unsa.etf.rma.cineaste.utils.getRecentMovies
 import junit.framework.TestCase.assertEquals
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat

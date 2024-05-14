@@ -1,6 +1,5 @@
-package ba.unsa.etf.rma.cineaste.utils
+package ba.unsa.etf.rma.cineaste
 
-import ba.unsa.etf.rma.cineaste.models.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONException
@@ -40,13 +39,13 @@ object TmdbApiCalls {
                     for (i in 0 until results.length()) {
                         val movie = results.getJSONObject(i)
 
-                        val title = movie.getString("original_title")
                         val id = movie.getInt("id")
-                        val posterPath = movie.getString("poster_path")
+                        val title = movie.getString("original_title")
                         val overview = movie.getString("overview")
                         val releaseDate = movie.getString("release_date")
+                        val posterPath = movie.getString("poster_path")
 
-                        movies.add(Movie(id.toLong(), title, overview, releaseDate, null, null, posterPath, " "))
+                        movies.add(Movie(id.toLong(), title, overview, releaseDate, null, posterPath, ""))
 
                         if (i == 5) break
                     }
@@ -68,7 +67,7 @@ object TmdbApiCalls {
     ): Result<Movie> {
         return withContext(Dispatchers.IO) {
             try {
-                val movie = Movie(0, "", "", "", "", "", "", "")
+                val movie = Movie(0, "", "", "", "", "", "")
 
                 val urlString = "https://api.themoviedb.org/3/movie/$id?api_key=$TMDB_API_KEY"
                 val url = URL(urlString)
@@ -82,7 +81,6 @@ object TmdbApiCalls {
                     movie.overview = jsonObject.getString("overview")
                     movie.releaseDate = jsonObject.getString("release_date")
                     movie.homepage = jsonObject.getString("homepage")
-                    movie.genre = jsonObject.getJSONArray("genres").getJSONObject(0).getString("name")
                     movie.posterPath = jsonObject.getString("poster_path")
                     movie.backdropPath = jsonObject.getString("backdrop_path")
                 }
@@ -175,9 +173,9 @@ object TmdbApiCalls {
     suspend fun latestMovieRequest(): Result<Movie> {
         return withContext(Dispatchers.IO) {
             try {
-                val movie = Movie(0, "", "", "", "", "", "", "")
+                val movie = Movie(0, "", "", "", "", "", "")
 
-                val urlString = "https://api.themoviedb.org/3/movie/latest?api_key=${TMDB_API_KEY}"
+                val urlString = "https://api.themoviedb.org/3/movie/latest?api_key=$TMDB_API_KEY"
                 val url = URL(urlString)
 
                 (url.openConnection() as? HttpURLConnection)?.run {

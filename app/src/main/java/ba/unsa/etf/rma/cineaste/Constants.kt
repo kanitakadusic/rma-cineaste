@@ -1,6 +1,4 @@
-package ba.unsa.etf.rma.cineaste.utils
-
-import ba.unsa.etf.rma.cineaste.BuildConfig
+package ba.unsa.etf.rma.cineaste
 
 object Constants {
     const val TMDB_API_KEY: String = BuildConfig.TMDB_API_KEY

@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste.fragments
+package ba.unsa.etf.rma.cineaste
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,11 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ba.unsa.etf.rma.cineaste.models.Movie
-import ba.unsa.etf.rma.cineaste.activities.DetailsActivity
-import ba.unsa.etf.rma.cineaste.adapters.MovieListAdapter
-import ba.unsa.etf.rma.cineaste.R
-import ba.unsa.etf.rma.cineaste.utils.getRecentMovies
 
 class UpcomingFragment : Fragment() {
     private lateinit var recentRV: RecyclerView

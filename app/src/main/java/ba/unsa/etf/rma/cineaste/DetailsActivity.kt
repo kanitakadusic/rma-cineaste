@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste.activities
+package ba.unsa.etf.rma.cineaste
 
 import android.app.SearchManager
 import android.content.ActivityNotFoundException
@@ -13,12 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import ba.unsa.etf.rma.cineaste.R
-import ba.unsa.etf.rma.cineaste.models.Movie
-import ba.unsa.etf.rma.cineaste.utils.Result
-import ba.unsa.etf.rma.cineaste.utils.TmdbApiCalls
-import ba.unsa.etf.rma.cineaste.utils.getFavoriteMovies
-import ba.unsa.etf.rma.cineaste.utils.getRecentMovies
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -33,7 +27,6 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var title: TextView
     private lateinit var overview: TextView
     private lateinit var releaseDate: TextView
-    private lateinit var genre: TextView
     private lateinit var website: TextView
     private lateinit var poster: ImageView
     private lateinit var backdrop: ImageView
@@ -47,7 +40,6 @@ class DetailsActivity : AppCompatActivity() {
         title = findViewById(R.id.detailsTitle)
         overview = findViewById(R.id.detailsOverview)
         releaseDate = findViewById(R.id.detailsReleaseDate)
-        genre = findViewById(R.id.detailsGenre)
         website = findViewById(R.id.detailsWebsite)
         poster = findViewById(R.id.detailsPoster)
         backdrop = findViewById(R.id.detailsBackdrop)
@@ -82,14 +74,13 @@ class DetailsActivity : AppCompatActivity() {
         movies.addAll(getFavoriteMovies())
 
         val movie = movies.find { movie -> name == movie.title }
-        return movie ?: Movie(0, "", "", "", "", "", "", "")
+        return movie ?: Movie(0, "", "", "", "", "", "")
     }
 
     private fun populateDetails() {
         title.text = movie.title
         overview.text = movie.overview
         releaseDate.text = movie.releaseDate
-        genre.text = movie.genre
         website.text = movie.homepage
 
         val posterContext: Context = poster.context

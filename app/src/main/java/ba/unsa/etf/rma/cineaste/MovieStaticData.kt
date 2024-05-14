@@ -1,6 +1,4 @@
-package ba.unsa.etf.rma.cineaste.utils
-
-import ba.unsa.etf.rma.cineaste.models.Movie
+package ba.unsa.etf.rma.cineaste
 
 fun getFavoriteMovies(): List<Movie> {
     return listOf(
@@ -10,7 +8,6 @@ fun getFavoriteMovies(): List<Movie> {
             "Sparks fly when spirited Elizabeth Bennet meets single, rich, and proud Mr. Darcy. But Mr. Darcy reluctantly finds himself falling in love with a woman beneath his class. Can each overcome their own pride and prejudice?",
             "16.02.2005.",
             "https://www.imdb.com/title/tt0414387/",
-            "drama",
             "https://www.imdb.com/title/tt0414387/",
             "https://www.imdb.com/title/tt0414387/"
         ),
@@ -20,7 +17,6 @@ fun getFavoriteMovies(): List<Movie> {
             "While navigating their careers in Los Angeles, a pianist and an actress fall in love while attempting to reconcile their aspirations for the future.",
             "09.12.2016.",
             "https://www.imdb.com/title/tt3783958/",
-            "musical",
             "https://www.imdb.com/title/tt3783958/",
             "https://www.imdb.com/title/tt3783958/"
         ),
@@ -30,7 +26,6 @@ fun getFavoriteMovies(): List<Movie> {
             "Will Hunting, a janitor at M.I.T., has a gift for mathematics, but needs help from a psychologist to find direction in his life.",
             "05.12.1997.",
             "https://www.imdb.com/title/tt0119217/",
-            "drama",
             "https://www.imdb.com/title/tt0119217/",
             "https://www.imdb.com/title/tt0119217/"
             )
@@ -45,7 +40,6 @@ fun getRecentMovies(): List<Movie> {
             "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family.",
             "01.03.2024.",
             "https://www.imdb.com/title/tt15239678/",
-            "action",
             "https://www.imdb.com/title/tt15239678/",
             "https://www.imdb.com/title/tt15239678/"
             ),
@@ -55,7 +49,6 @@ fun getRecentMovies(): List<Movie> {
             "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.",
             "21.07.2023.",
             "https://www.imdb.com/title/tt15398776/",
-            "biography",
             "https://www.imdb.com/title/tt15398776/",
             "https://www.imdb.com/title/tt15398776/"
             ),
@@ -65,7 +58,6 @@ fun getRecentMovies(): List<Movie> {
             "Doctor Strange teams up with a mysterious teenage girl from his dreams who can travel across multiverses, to battle multiple threats, including other-universe versions of himself, which threaten to wipe out millions across the multiverse. They seek help from Wanda the Scarlet Witch, Wong and others.",
             "06.05.2022.",
             "https://www.imdb.com/title/tt9419884/",
-            "action",
             "https://www.imdb.com/title/tt9419884/",
             "https://www.imdb.com/title/tt9419884/"
             )

@@ -1,4 +1,4 @@
-package ba.unsa.etf.rma.cineaste.fragments
+package ba.unsa.etf.rma.cineaste
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,11 +8,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ba.unsa.etf.rma.cineaste.R
-import ba.unsa.etf.rma.cineaste.adapters.SimpleStringAdapter
-import ba.unsa.etf.rma.cineaste.utils.TmdbApiCalls
-import ba.unsa.etf.rma.cineaste.utils.Result
-import ba.unsa.etf.rma.cineaste.utils.getSimilarMovies
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

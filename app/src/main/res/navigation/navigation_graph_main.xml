@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="ba.unsa.etf.rma.cineaste.fragments.FavoriteFragment"
+        android:name="ba.unsa.etf.rma.cineaste.FavoriteFragment"
         android:label="FavoriteMoviesFragment" />
 
     <fragment
         android:id="@+id/upcomingFragment"
-        android:name="ba.unsa.etf.rma.cineaste.fragments.UpcomingFragment"
+        android:name="ba.unsa.etf.rma.cineaste.UpcomingFragment"
         android:label="RecentMoviesFragment" />
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="ba.unsa.etf.rma.cineaste.fragments.SearchFragment"
+        android:name="ba.unsa.etf.rma.cineaste.SearchFragment"
         android:label="SearchFragment" />
 
 </navigation>
