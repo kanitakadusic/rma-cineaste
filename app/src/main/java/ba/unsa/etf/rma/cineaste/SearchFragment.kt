@@ -17,8 +17,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
-    private lateinit var searchText: EditText
-    private lateinit var searchButton: AppCompatImageButton
+    private lateinit var searchET: EditText
+    private lateinit var searchIB: AppCompatImageButton
 
     private lateinit var searchRV: RecyclerView
     private lateinit var searchMLA: MovieListAdapter
@@ -30,11 +30,11 @@ class SearchFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_search, container, false)
 
-        searchText = view.findViewById(R.id.searchText)
-        arguments?.getString("search")?.let { searchText.setText(it) }
+        searchET = view.findViewById(R.id.searchText)
+        arguments?.getString("search")?.let { searchET.setText(it) }
 
-        searchButton = view.findViewById(R.id.searchButton)
-        searchButton.setOnClickListener { search(searchText.text.toString()) }
+        searchIB = view.findViewById(R.id.searchButton)
+        searchIB.setOnClickListener { getSearch(searchET.text.toString()) }
 
         searchRV = view.findViewById(R.id.searchList)
         searchRV.layoutManager = GridLayoutManager(activity, 2)
@@ -53,18 +53,23 @@ class SearchFragment : Fragment() {
         startActivity(intent)
     }
 
-    private fun search(query: String) {
+    private fun getSearch(query: String) {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
         scope.launch {
-            when (val result = MovieRepository.searchRequest(query)) {
-                is Result.Success<List<Movie>> -> searchDone(result.data)
-                else -> Toast.makeText(context, "Search error", Toast.LENGTH_SHORT).show()
+            when (val result = MovieRepository.getSearchMovies(query)) {
+                is GetMoviesResponse -> onSuccess(result.movies)
+                else -> onError()
             }
         }
     }
 
-    private fun searchDone(movies: List<Movie>) {
+    private fun onSuccess(movies: List<Movie>) {
+        Toast.makeText(context, "Search success", Toast.LENGTH_SHORT).show()
         searchMLA.updateMovies(movies)
+    }
+
+    private fun onError() {
+        Toast.makeText(context, "Search error", Toast.LENGTH_SHORT).show()
     }
 }

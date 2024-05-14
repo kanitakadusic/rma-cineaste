@@ -27,45 +27,10 @@ object MovieRepository {
         }
     }
 
-    suspend fun searchRequest(
-        query: String
-    ): Result<List<Movie>> {
+    suspend fun getSearchMovies(query: String): GetMoviesResponse? {
         return withContext(Dispatchers.IO) {
-            try {
-                val movies = arrayListOf<Movie>()
-
-                val urlString = "https://api.themoviedb.org/3/search/movie?api_key=$TMDB_API_KEY&query=$query"
-                val url = URL(urlString)
-
-                (url.openConnection() as? HttpURLConnection)?.run {
-                    val result: String = this.inputStream.bufferedReader().use { it.readText() }
-
-                    val jsonObject = JSONObject(result)
-                    val results = jsonObject.getJSONArray("results")
-
-                    for (i in 0 until results.length()) {
-                        val movie = results.getJSONObject(i)
-
-                        val id = movie.getInt("id")
-                        val title = movie.getString("original_title")
-                        val overview = movie.getString("overview")
-                        val releaseDate = movie.getString("release_date")
-                        val posterPath = movie.getString("poster_path")
-
-                        movies.add(Movie(id.toLong(), title, overview, releaseDate, null, posterPath, ""))
-
-                        if (i == 5) break
-                    }
-                }
-
-                return@withContext Result.Success(movies)
-            } catch (e: MalformedURLException) {
-                return@withContext Result.Error(Exception("Cannot open HttpURLConnection"))
-            } catch (e: IOException) {
-                return@withContext Result.Error(Exception("Cannot read stream"))
-            } catch (e: JSONException) {
-                return@withContext Result.Error(Exception("Cannot parse JSON"))
-            }
+            val response = ApiAdapter.retrofit.getSearchMovies(query)
+            return@withContext response.body()
         }
     }
 
