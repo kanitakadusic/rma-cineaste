@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 class SimilarFragment : Fragment() {
     private lateinit var similarRV: RecyclerView
     private lateinit var similarSLA: StringListAdapter
-    private var similarList: List<String> = listOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,39 +24,40 @@ class SimilarFragment : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.fragment_similar, container, false)
         val intent = requireActivity().intent
-        val extras = intent.extras
-
-        if (extras != null) {
-            if (extras.containsKey("movie_title")) {
-                similarList = getSimilarMovies()[extras.getString("movie_title")] ?: emptyList()
-            } else if (extras.containsKey("movie_id")) {
-                similar(extras.getLong("movie_id"))
-            }
-        }
 
         similarRV = view.findViewById(R.id.listSimilar)
         similarRV.layoutManager = LinearLayoutManager(activity)
 
-        similarSLA = StringListAdapter(similarList)
+        similarSLA = StringListAdapter(listOf())
         similarRV.adapter = similarSLA
+
+        val extras = intent.extras
+        if (extras != null && extras.containsKey("movie_id")) {
+            getSimilar(extras.getInt("movie_id"))
+        }
 
         return view
     }
 
-    private fun similar(query: Long) {
+    private fun getSimilar(id: Int) {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
+        /*
         scope.launch {
-            when (val result = MovieRepository.similarMoviesRequest(query)) {
-                is Result.Success<MutableList<String>> -> similarDone(result.data)
-                else -> Toast.makeText(context, "Similar error", Toast.LENGTH_SHORT).show()
+            when (val result = MovieRepository.getSimilarMovies(id)) {
+                is Response -> onSuccess(result)
+                else -> onError()
             }
         }
+        */
     }
 
-    private fun similarDone(similar: MutableList<String>) {
-        similarList = similar
-        similarSLA.list = similar
-        similarSLA.notifyDataSetChanged()
+    private fun onSuccess(similar: List<String>) {
+        Toast.makeText(context, "Similar success", Toast.LENGTH_SHORT).show()
+        similarSLA.updateStrings(similar)
+    }
+
+    private fun onError() {
+        Toast.makeText(context, "Similar error", Toast.LENGTH_SHORT).show()
     }
 }

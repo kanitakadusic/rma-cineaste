@@ -38,7 +38,7 @@ class UpcomingFragment : Fragment() {
 
     private fun showMovieDetails(movie: Movie) {
         val intent = Intent(activity, DetailsActivity::class.java).apply {
-            putExtra("movie_title", movie.title)
+            putExtra("movie_id", movie.id)
         }
 
         startActivity(intent)

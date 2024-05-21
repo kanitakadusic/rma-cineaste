@@ -24,84 +24,46 @@ import kotlinx.coroutines.launch
 class DetailsActivity : AppCompatActivity() {
     private lateinit var movie: Movie
 
-    private lateinit var title: TextView
-    private lateinit var overview: TextView
-    private lateinit var releaseDate: TextView
-    private lateinit var website: TextView
-    private lateinit var poster: ImageView
-    private lateinit var backdrop: ImageView
+    private lateinit var titleTV: TextView
+    private lateinit var overviewTV: TextView
+    private lateinit var releaseDateTV: TextView
+    private lateinit var homepageTV: TextView
+    private lateinit var posterIV: ImageView
+    private lateinit var backdropIV: ImageView
 
-    private lateinit var share: FloatingActionButton
+    private lateinit var shareFAB: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        title = findViewById(R.id.detailsTitle)
-        overview = findViewById(R.id.detailsOverview)
-        releaseDate = findViewById(R.id.detailsReleaseDate)
-        website = findViewById(R.id.detailsWebsite)
-        poster = findViewById(R.id.detailsPoster)
-        backdrop = findViewById(R.id.detailsBackdrop)
+        titleTV = findViewById(R.id.detailsTitle)
+        titleTV.setOnClickListener { searchTrailer() }
 
-        share = findViewById(R.id.shareButton)
+        overviewTV = findViewById(R.id.detailsOverview)
+
+        releaseDateTV = findViewById(R.id.detailsReleaseDate)
+
+        homepageTV = findViewById(R.id.detailsWebsite)
+        homepageTV.setOnClickListener { showWebsite() }
+
+        posterIV = findViewById(R.id.detailsPoster)
+
+        backdropIV = findViewById(R.id.detailsBackdrop)
+
+        shareFAB = findViewById(R.id.shareButton)
+        shareFAB.setOnClickListener { shareOverview() }
 
         val extras = intent.extras
-        if (extras != null) {
-            if (extras.containsKey("movie_title")) {
-                movie = getMovieByTitle(extras.getString("movie_title",""))
-                populateDetails()
-            } else if (extras.containsKey("movie_id")) {
-                details(extras.getLong("movie_id"))
-            }
+        if (extras != null && extras.containsKey("movie_id")) {
+            getDetails(extras.getInt("movie_id"))
         } else {
             finish()
         }
 
-        title.setOnClickListener { searchTrailer() }
-        website.setOnClickListener { showWebsite() }
-        share.setOnClickListener { shareOverview() }
-
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.hostFragmentDetails) as NavHostFragment
-        val navController = navHostFragment.navController
+        val navHost = supportFragmentManager.findFragmentById(R.id.hostFragmentDetails) as NavHostFragment
         val navView: BottomNavigationView = findViewById(R.id.bottomNavigationDetails)
-        navView.setupWithNavController(navController)
-    }
-
-    private fun getMovieByTitle(name: String): Movie {
-        val movies: ArrayList<Movie> = arrayListOf()
-        movies.addAll(getUpcomingMovies())
-        movies.addAll(getFavoriteMovies())
-
-        val movie = movies.find { movie -> name == movie.title }
-        return movie ?: Movie(0, "", "", "", "", "", "")
-    }
-
-    private fun populateDetails() {
-        title.text = movie.title
-        overview.text = movie.overview
-        releaseDate.text = movie.releaseDate
-        website.text = movie.homepage
-
-        val posterContext: Context = poster.context
-        Glide.with(posterContext)
-            .load(MovieRepository.POSTER_PATH + movie.posterPath)
-            .centerCrop()
-            .centerCrop()
-            .placeholder(R.drawable.undefined)
-            .error(R.drawable.undefined)
-            .fallback(R.drawable.undefined)
-            .into(poster)
-
-        val backdropContext: Context = backdrop.context
-        Glide.with(backdropContext)
-            .load(MovieRepository.BACKDROP_PATH + movie.backdropPath)
-            .centerCrop()
-            .centerCrop()
-            .placeholder(R.drawable.undefined)
-            .error(R.drawable.undefined)
-            .fallback(R.drawable.undefined)
-            .into(backdrop)
+        navView.setupWithNavController(navHost.navController)
     }
 
     private fun searchTrailer() {
@@ -141,19 +103,51 @@ class DetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun details(query: Long) {
+    private fun populateDetails() {
+        titleTV.text = movie.title
+        overviewTV.text = movie.overview
+        releaseDateTV.text = movie.releaseDate
+        homepageTV.text = movie.homepage
+
+        val posterContext: Context = posterIV.context
+        Glide.with(posterContext)
+            .load(MovieRepository.POSTER_PATH + movie.posterPath)
+            .centerCrop()
+            .centerCrop()
+            .placeholder(R.drawable.undefined)
+            .error(R.drawable.undefined)
+            .fallback(R.drawable.undefined)
+            .into(posterIV)
+
+        val backdropContext: Context = backdropIV.context
+        Glide.with(backdropContext)
+            .load(MovieRepository.BACKDROP_PATH + movie.backdropPath)
+            .centerCrop()
+            .centerCrop()
+            .placeholder(R.drawable.undefined)
+            .error(R.drawable.undefined)
+            .fallback(R.drawable.undefined)
+            .into(backdropIV)
+    }
+
+    private fun getDetails(id: Int) {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
         scope.launch {
-            when (val result = MovieRepository.movieDetailsRequest(query)) {
-                is Result.Success<Movie> -> detailsDone(result.data)
-                else -> Toast.makeText(baseContext, "Details error", Toast.LENGTH_SHORT).show()
+            when (val result = MovieRepository.getMovieDetails(id)) {
+                is Movie -> onSuccess(result)
+                else -> onError()
             }
         }
     }
 
-    private fun detailsDone(movie: Movie) {
+    private fun onSuccess(movie: Movie) {
+        Toast.makeText(this, "Details success", Toast.LENGTH_SHORT).show()
         this.movie = movie
         populateDetails()
+    }
+
+    private fun onError() {
+        Toast.makeText(this, "Details error", Toast.LENGTH_SHORT).show()
     }
 }

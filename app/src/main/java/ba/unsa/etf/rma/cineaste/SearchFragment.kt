@@ -53,11 +53,11 @@ class SearchFragment : Fragment() {
         startActivity(intent)
     }
 
-    private fun getSearch(query: String) {
+    private fun getSearch(title: String) {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
         scope.launch {
-            when (val result = MovieRepository.getSearchMovies(query)) {
+            when (val result = MovieRepository.getSearchMovies(title)) {
                 is GetMoviesResponse -> onSuccess(result.movies)
                 else -> onError()
             }

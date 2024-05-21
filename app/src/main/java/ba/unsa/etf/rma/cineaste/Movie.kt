@@ -5,7 +5,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 data class Movie (
-    @SerializedName("id") var id: Long,
+    @SerializedName("id") var id: Int,
     @SerializedName("original_title") var title: String,
     @SerializedName("overview") var overview: String,
     @SerializedName("release_date") var releaseDate: String,
@@ -17,7 +17,7 @@ data class Movie (
     constructor(
         parcel: Parcel
     ) : this(
-        parcel.readLong(),
+        parcel.readInt(),
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -30,7 +30,7 @@ data class Movie (
         parcel: Parcel,
         flags: Int
     ) {
-        parcel.writeLong(id)
+        parcel.writeInt(id)
         parcel.writeString(title)
         parcel.writeString(overview)
         parcel.writeString(releaseDate)

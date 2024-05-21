@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 class ActorsFragment : Fragment() {
     private lateinit var actorsRV: RecyclerView
     private lateinit var actorsSLA: StringListAdapter
-    private var actorsList: List<String> = listOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,39 +24,40 @@ class ActorsFragment : Fragment() {
     ): View {
         val view: View = inflater.inflate(R.layout.fragment_actors, container, false)
         val intent = requireActivity().intent
-        val extras = intent.extras
-
-        if (extras != null) {
-            if (extras.containsKey("movie_title")) {
-                actorsList = getMovieActors()[extras.getString("movie_title")] ?: emptyList()
-            } else if (extras.containsKey("movie_id")) {
-                actors(extras.getLong("movie_id"))
-            }
-        }
 
         actorsRV = view.findViewById(R.id.listActors)
         actorsRV.layoutManager = LinearLayoutManager(activity)
 
-        actorsSLA = StringListAdapter(actorsList)
+        actorsSLA = StringListAdapter(listOf())
         actorsRV.adapter = actorsSLA
+
+        val extras = intent.extras
+        if (extras != null && extras.containsKey("movie_id")) {
+            getActors(extras.getInt("movie_id"))
+        }
 
         return view
     }
 
-    private fun actors(query: Long) {
+    private fun getActors(id: Int) {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
+        /*
         scope.launch {
-            when (val result = MovieRepository.movieActorsRequest(query)) {
-                is Result.Success<MutableList<String>> -> actorsDone(result.data)
-                else -> Toast.makeText(context, "Actors error", Toast.LENGTH_SHORT).show()
+            when (val result = MovieRepository.getMovieActors(id)) {
+                is Response -> onSuccess(result)
+                else -> onError()
             }
         }
+        */
     }
 
-    private fun actorsDone(actors: MutableList<String>) {
-        actorsList = actors
-        actorsSLA.list = actors
-        actorsSLA.notifyDataSetChanged()
+    private fun onSuccess(actors: List<String>) {
+        Toast.makeText(context, "Actors success", Toast.LENGTH_SHORT).show()
+        actorsSLA.updateStrings(actors)
+    }
+
+    private fun onError() {
+        Toast.makeText(context, "Actors error", Toast.LENGTH_SHORT).show()
     }
 }

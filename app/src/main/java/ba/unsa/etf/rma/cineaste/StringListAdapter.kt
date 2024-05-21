@@ -7,8 +7,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class StringListAdapter(
-    var list: List<String>
+    private var items: List<String>
 ) :RecyclerView.Adapter<StringListAdapter.SimpleViewHolder>() {
+
+    fun updateStrings(strings: List<String>) {
+        this.items = strings
+        notifyDataSetChanged()
+    }
+
+    override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -21,13 +28,11 @@ class StringListAdapter(
         return SimpleViewHolder(view)
     }
 
-    override fun getItemCount(): Int = list.size
-
     override fun onBindViewHolder(
         holder: SimpleViewHolder,
         position: Int
     ) {
-        holder.string.text = list[position]
+        holder.string.text = items[position]
     }
 
     inner class SimpleViewHolder(

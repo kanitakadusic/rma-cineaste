@@ -10,16 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 class MovieListAdapter (
-    private var movies: List<Movie>,
+    private var items: List<Movie>,
     private val onItemClicked: (movie: Movie) -> Unit
 ) : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>() {
 
     fun updateMovies(movies: List<Movie>) {
-        this.movies = movies
+        this.items = movies
         notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int = movies.size
+    override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -36,18 +36,18 @@ class MovieListAdapter (
         holder: MovieViewHolder,
         position: Int
     ) {
-        holder.movieTitle.text = movies[position].title
+        holder.movieTitle.text = items[position].title
 
         val posterContext: Context = holder.movieImage.context
         Glide.with(posterContext)
-            .load(MovieRepository.POSTER_PATH + movies[position].posterPath)
+            .load(MovieRepository.POSTER_PATH + items[position].posterPath)
             .centerCrop()
             .placeholder(R.drawable.undefined)
             .error(R.drawable.undefined)
             .fallback(R.drawable.undefined)
             .into(holder.movieImage)
 
-        holder.itemView.setOnClickListener { onItemClicked(movies[position]) }
+        holder.itemView.setOnClickListener { onItemClicked(items[position]) }
     }
 
     inner class MovieViewHolder (
