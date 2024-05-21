@@ -111,7 +111,7 @@ class DetailsActivity : AppCompatActivity() {
 
         val posterContext: Context = posterIV.context
         Glide.with(posterContext)
-            .load(MovieRepository.POSTER_PATH + movie.posterPath)
+            .load(Constants.POSTER_PATH + movie.posterPath)
             .centerCrop()
             .centerCrop()
             .placeholder(R.drawable.undefined)
@@ -121,7 +121,7 @@ class DetailsActivity : AppCompatActivity() {
 
         val backdropContext: Context = backdropIV.context
         Glide.with(backdropContext)
-            .load(MovieRepository.BACKDROP_PATH + movie.backdropPath)
+            .load(Constants.BACKDROP_PATH + movie.backdropPath)
             .centerCrop()
             .centerCrop()
             .placeholder(R.drawable.undefined)

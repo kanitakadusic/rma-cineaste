@@ -13,23 +13,23 @@ import com.bumptech.glide.Glide
 class LatestActivity : AppCompatActivity() {
     private var movie = Movie(0, "", "", "", "", "", "")
 
-    private lateinit var title: TextView
-    private lateinit var overview: TextView
-    private lateinit var poster: ImageView
-    private lateinit var backdrop: ImageView
+    private lateinit var titleTV: TextView
+    private lateinit var overviewTV: TextView
+    private lateinit var posterIV: ImageView
+    private lateinit var backdropIV: ImageView
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_latest)
 
-        title = findViewById(R.id.latestTitle)
-        overview = findViewById(R.id.latestOverview)
-        poster = findViewById(R.id.latestPoster)
-        backdrop = findViewById(R.id.latestBackdrop)
+        titleTV = findViewById(R.id.latestTitle)
+        overviewTV = findViewById(R.id.latestOverview)
+        posterIV = findViewById(R.id.latestPoster)
+        backdropIV = findViewById(R.id.latestBackdrop)
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.cancel(Constants.NOTIFICATION_ID_LATEST_MOVIE)
+        notificationManager.cancel(Constants.NOTIFICATION_ID_LATEST_MOVIE_ON_START)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (intent?.getParcelableExtra("movie", Movie::class.java) !== null) {
@@ -46,27 +46,27 @@ class LatestActivity : AppCompatActivity() {
     }
 
     private fun populateDetails() {
-        title.text = movie.title
-        overview.text = movie.overview
+        titleTV.text = movie.title
+        overviewTV.text = movie.overview
 
-        val posterContext: Context = poster.context
+        val posterContext: Context = posterIV.context
         Glide.with(posterContext)
-            .load(MovieRepository.POSTER_PATH + movie.posterPath)
+            .load(Constants.POSTER_PATH + movie.posterPath)
             .centerCrop()
             .centerCrop()
             .placeholder(R.drawable.undefined)
             .error(R.drawable.undefined)
             .fallback(R.drawable.undefined)
-            .into(poster)
+            .into(posterIV)
 
-        val backdropContext: Context = backdrop.context
+        val backdropContext: Context = backdropIV.context
         Glide.with(backdropContext)
-            .load(MovieRepository.BACKDROP_PATH + movie.backdropPath)
+            .load(Constants.BACKDROP_PATH + movie.backdropPath)
             .centerCrop()
             .centerCrop()
             .placeholder(R.drawable.undefined)
             .error(R.drawable.undefined)
             .fallback(R.drawable.undefined)
-            .into(backdrop)
+            .into(backdropIV)
     }
 }

@@ -8,10 +8,10 @@ data class Movie (
     @SerializedName("id") var id: Int,
     @SerializedName("original_title") var title: String,
     @SerializedName("overview") var overview: String,
-    @SerializedName("release_date") var releaseDate: String,
+    @SerializedName("release_date") var releaseDate: String?,
     @SerializedName("homepage") var homepage: String?,
-    @SerializedName("poster_path") var posterPath: String,
-    @SerializedName("backdrop_path") var backdropPath: String
+    @SerializedName("poster_path") var posterPath: String?,
+    @SerializedName("backdrop_path") var backdropPath: String?
 ) : Parcelable {
 
     constructor(
@@ -20,10 +20,10 @@ data class Movie (
         parcel.readInt(),
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readString()!!,
         parcel.readString(),
-        parcel.readString()!!,
-        parcel.readString()!!
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString()
     )
 
     override fun writeToParcel(

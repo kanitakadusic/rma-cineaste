@@ -40,7 +40,7 @@ class MovieListAdapter (
 
         val posterContext: Context = holder.movieImage.context
         Glide.with(posterContext)
-            .load(MovieRepository.POSTER_PATH + items[position].posterPath)
+            .load(Constants.POSTER_PATH + items[position].posterPath)
             .centerCrop()
             .placeholder(R.drawable.undefined)
             .error(R.drawable.undefined)

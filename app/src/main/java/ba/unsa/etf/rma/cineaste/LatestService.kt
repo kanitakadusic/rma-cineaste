@@ -29,7 +29,7 @@ class LatestService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        startForeground(Constants.NOTIFICATION_ID_LATEST_MOVIE, createNotification())
+        startForeground(Constants.NOTIFICATION_ID_LATEST_MOVIE_ON_CREATE, createNotification())
     }
 
     private fun createNotification(): Notification {
@@ -77,9 +77,9 @@ class LatestService : Service() {
         GlobalScope.launch(Dispatchers.IO) {
             while (serviceStarted) {
                 launch(Dispatchers.IO) {
-                    when (val result = MovieRepository.latestMovieRequest()) {
-                        is Result.Success<Movie> -> latestDone(result.data)
-                        else -> Log.e("TAG67", "Latest error")
+                    when (val result = MovieRepository.getLatestMovie()) {
+                        is Movie -> onSuccess(result)
+                        else -> onError()
                     }
                 }
 
@@ -88,14 +88,15 @@ class LatestService : Service() {
         }
     }
 
-    private fun latestDone(movie: Movie) {
+    private fun onSuccess(movie: Movie) {
+        Log.i("LATEST", "Latest success")
+
         val intent = Intent(this, LatestActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra("movie", movie)
         }
 
-        val pendingIntent = PendingIntent
-            .getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val notification = NotificationCompat.Builder(baseContext, Constants.CHANNEL_ID_LATEST_MOVIE).apply{
             setSmallIcon(android.R.drawable.stat_notify_sync)
@@ -107,10 +108,16 @@ class LatestService : Service() {
         }
 
         with(NotificationManagerCompat.from(applicationContext)) {
-            if (ActivityCompat.checkSelfPermission(baseContext, android.Manifest.permission.POST_NOTIFICATIONS)
-                != PackageManager.PERMISSION_GRANTED) return
+            if (ActivityCompat.checkSelfPermission(
+                    baseContext,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED) return
 
-            notify(Constants.NOTIFICATION_ID_LATEST_MOVIE, notification.build())
+            notify(Constants.NOTIFICATION_ID_LATEST_MOVIE_ON_START, notification.build())
         }
+    }
+
+    private fun onError() {
+        Log.e("LATEST", "Latest error")
     }
 }

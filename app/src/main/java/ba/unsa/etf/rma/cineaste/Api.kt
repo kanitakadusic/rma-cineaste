@@ -34,4 +34,9 @@ interface Api {
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String = Constants.TMDB_API_KEY
     ): Response<GetMoviesResponse>
+
+    @GET("movie/latest")
+    suspend fun getLatestMovie(
+        @Query("api_key") apiKey: String = Constants.TMDB_API_KEY
+    ): Response<Movie>
 }
