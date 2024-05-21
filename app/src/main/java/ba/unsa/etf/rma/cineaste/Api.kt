@@ -22,4 +22,16 @@ interface Api {
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String = Constants.TMDB_API_KEY
     ): Response<Movie>
+
+    @GET("movie/{movie_id}/credits")
+    suspend fun getMovieActors(
+        @Path("movie_id") id: Int,
+        @Query("api_key") apiKey: String = Constants.TMDB_API_KEY
+    ): Response<GetActorsResponse>
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun getSimilarMovies(
+        @Path("movie_id") id: Int,
+        @Query("api_key") apiKey: String = Constants.TMDB_API_KEY
+    ): Response<GetMoviesResponse>
 }

@@ -41,9 +41,19 @@ object MovieRepository {
         }
     }
 
-    // suspend fun getMovieActors(id: Int) {}
+    suspend fun getMovieActors(id: Int): GetActorsResponse? {
+        return withContext(Dispatchers.IO) {
+            val response = ApiAdapter.retrofit.getMovieActors(id)
+            return@withContext response.body()
+        }
+    }
 
-    // suspend fun getSimilarMovies(id: Int) {}
+    suspend fun getSimilarMovies(id: Int): GetMoviesResponse? {
+        return withContext(Dispatchers.IO) {
+            val response = ApiAdapter.retrofit.getSimilarMovies(id)
+            return@withContext response.body()
+        }
+    }
 
     suspend fun latestMovieRequest(): Result<Movie> {
         return withContext(Dispatchers.IO) {

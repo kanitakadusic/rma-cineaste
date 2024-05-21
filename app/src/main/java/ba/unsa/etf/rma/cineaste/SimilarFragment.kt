@@ -42,19 +42,17 @@ class SimilarFragment : Fragment() {
     private fun getSimilar(id: Int) {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
-        /*
         scope.launch {
             when (val result = MovieRepository.getSimilarMovies(id)) {
-                is Response -> onSuccess(result)
+                is GetMoviesResponse -> onSuccess(result.movies)
                 else -> onError()
             }
         }
-        */
     }
 
-    private fun onSuccess(similar: List<String>) {
+    private fun onSuccess(similar: List<Movie>) {
         Toast.makeText(context, "Similar success", Toast.LENGTH_SHORT).show()
-        similarSLA.updateStrings(similar)
+        similarSLA.updateStrings(similar.map { it.title })
     }
 
     private fun onError() {

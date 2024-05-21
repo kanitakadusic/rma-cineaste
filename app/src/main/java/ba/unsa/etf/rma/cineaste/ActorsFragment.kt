@@ -42,19 +42,17 @@ class ActorsFragment : Fragment() {
     private fun getActors(id: Int) {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
 
-        /*
         scope.launch {
             when (val result = MovieRepository.getMovieActors(id)) {
-                is Response -> onSuccess(result)
+                is GetActorsResponse -> onSuccess(result.actors)
                 else -> onError()
             }
         }
-        */
     }
 
-    private fun onSuccess(actors: List<String>) {
+    private fun onSuccess(actors: List<Actor>) {
         Toast.makeText(context, "Actors success", Toast.LENGTH_SHORT).show()
-        actorsSLA.updateStrings(actors)
+        actorsSLA.updateStrings(actors.map { it.name })
     }
 
     private fun onError() {
