@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+
+    id("kotlin-kapt")
 }
 
 android {
@@ -58,6 +60,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.hamcrest:hamcrest:2.2")
@@ -70,5 +74,8 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+
+    kapt("androidx.room:room-compiler:2.6.1")
 
 }

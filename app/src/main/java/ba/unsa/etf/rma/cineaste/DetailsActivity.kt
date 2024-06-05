@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -31,6 +32,7 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var posterIV: ImageView
     private lateinit var backdropIV: ImageView
 
+    private lateinit var favoriteB: Button
     private lateinit var shareFAB: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,12 +53,18 @@ class DetailsActivity : AppCompatActivity() {
 
         backdropIV = findViewById(R.id.detailsBackdrop)
 
+        favoriteB = findViewById(R.id.favorite)
+        favoriteB.setOnClickListener { onFavoriteButtonClicked(movie) }
+
         shareFAB = findViewById(R.id.shareButton)
         shareFAB.setOnClickListener { shareOverview() }
 
         val extras = intent.extras
         if (extras != null && extras.containsKey("movie_id")) {
-            getDetails(extras.getInt("movie_id"))
+            val movieId: Int = extras.getInt("movie_id")
+
+            getDetails(movieId)
+            manageFavoriteButtonText(movieId)
         } else {
             finish()
         }
@@ -149,5 +157,50 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun onError() {
         Toast.makeText(this, "Details error", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onFavoriteButtonClicked(movie: Movie) {
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        val activityContext: Context = this
+
+        scope.launch {
+            when (favoriteB.text.toString()) {
+                getString(R.string.add_to_favorites) -> {
+                    when (MovieRepository.addMovieToFavorites(activityContext, movie)) {
+                        true -> onAddSuccess()
+                        false -> Toast.makeText(activityContext, "Add error", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                getString(R.string.delete_from_favorites) -> {
+                    when (MovieRepository.deleteMovieFromFavorites(activityContext, movie)) {
+                        true -> onDeleteSuccess()
+                        false -> Toast.makeText(activityContext, "Delete error", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onAddSuccess() {
+        Toast.makeText(this, "Add success", Toast.LENGTH_SHORT).show()
+        favoriteB.setText(R.string.delete_from_favorites)
+    }
+
+    private fun onDeleteSuccess() {
+        Toast.makeText(this, "Delete success", Toast.LENGTH_SHORT).show()
+        favoriteB.setText(R.string.add_to_favorites)
+    }
+
+    private fun manageFavoriteButtonText(id: Int) {
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        val activityContext: Context = this
+
+        scope.launch {
+            when (MovieRepository.findMovieById(activityContext, id)) {
+                is Movie -> favoriteB.setText(R.string.delete_from_favorites)
+                else -> favoriteB.setText(R.string.add_to_favorites)
+            }
+        }
     }
 }

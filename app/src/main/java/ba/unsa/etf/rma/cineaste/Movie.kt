@@ -2,16 +2,20 @@ package ba.unsa.etf.rma.cineaste
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class Movie (
-    @SerializedName("id") var id: Int,
-    @SerializedName("original_title") var title: String,
-    @SerializedName("overview") var overview: String,
-    @SerializedName("release_date") var releaseDate: String?,
-    @SerializedName("homepage") var homepage: String?,
-    @SerializedName("poster_path") var posterPath: String?,
-    @SerializedName("backdrop_path") var backdropPath: String?
+    @PrimaryKey @SerializedName("id") var id: Int,
+    @ColumnInfo(name = "title") @SerializedName("original_title") var title: String,
+    @ColumnInfo(name = "overview") @SerializedName("overview") var overview: String,
+    @ColumnInfo(name = "release_date") @SerializedName("release_date") var releaseDate: String?,
+    @ColumnInfo(name = "homepage") @SerializedName("homepage") var homepage: String?,
+    @ColumnInfo(name = "poster_path") @SerializedName("poster_path") var posterPath: String?,
+    @ColumnInfo(name = "backdrop_path") @SerializedName("backdrop_path") var backdropPath: String?
 ) : Parcelable {
 
     constructor(
